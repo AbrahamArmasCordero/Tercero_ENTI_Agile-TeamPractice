@@ -1,15 +1,17 @@
 var tetris = tetris || {};
 
 
-tetris.gameState = {
+tetris.inGame = {
     
     preload:function(){
         //game.stage.backgroundColor = "#FF0000";
         var ruta = 'assets/img/';
-    this.load.image('bg1',ruta+'background_back.png');
-    this.load.image('bg2',ruta+'background_frontal.png');
+        this.load.image('bg1',ruta+'background_back.png');
+        this.load.image('bg2',ruta+'background_frontal.png');
     },
     create:function(){
+        
+        //.stage.backgroundColor = "#FF0000";
         
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
@@ -23,8 +25,3 @@ tetris.gameState = {
         this.bg2.tilePosition.y+=2;
     }
 };
-
-
-
-
-
