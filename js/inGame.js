@@ -17,8 +17,8 @@ tetris.inGame = {
         this.scale.pageAlignHorizontally = true;
         
         //.stage.backgroundColor = "#FF0000";
-        this.bg1 =this.game.add.tileSprite(0,0,128,256,'bg1');
-        this.bg2=this.game.add.tileSprite(0,0,128,256,'bg2');
+        this.bg1 = this.game.add.tileSprite(0,0,128,256,'bg1');
+        this.bg2 = this.game.add.tileSprite(0,0,128,256,'bg2');
     },
     update:function(){
         this.bg1.tilePosition.y+=1;
