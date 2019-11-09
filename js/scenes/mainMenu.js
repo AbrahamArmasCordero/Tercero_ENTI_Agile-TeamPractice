@@ -23,9 +23,12 @@ tetris.mainMenu = {
 
         var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, function(){this.game.state.start('inGame');});
         
-        
+        this.grider = new tetris.Grid();
+        //console.log(
+        //this.grider.ReturnCell(9,1).spriteID);
     },
     update:function(){
+        
     },
     
     createButton: function(g1, string, x,y,w,h,callback){
