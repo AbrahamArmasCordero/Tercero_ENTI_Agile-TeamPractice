@@ -6,8 +6,8 @@ tetris.inGame = {
     preload:function(){
         //game.stage.backgroundColor = "#FF0000";
         var ruta = 'assets/img/';
-        this.load.image('bg1',ruta+'background_back.png');
-        this.load.image('bg2',ruta+'background_frontal.png');
+        this.load.image('bg1',ruta+'backgrounds/background_back.png');
+        this.load.image('bg2',ruta+'backgrounds/background_frontal.png');
     },
     create:function(){
         

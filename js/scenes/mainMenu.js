@@ -10,7 +10,8 @@ tetris.mainMenu = {
         this.game.stage.backgroundColor = '#182d3b';
 
 
-        
+        //Prueba de inputs
+        this.inputs = new tetris.inputManager(this.game);
     },
     
     create:function(){
@@ -26,7 +27,9 @@ tetris.mainMenu = {
         
     },
     update:function(){
-        //this.game.state.start('inGame');
+        if(this.inputs.cursorsPlayer02.up.isDown){
+            console.log("P01 up");
+        }
     },
     
     createButton: function(g1, string, x,y,w,h,callback){
