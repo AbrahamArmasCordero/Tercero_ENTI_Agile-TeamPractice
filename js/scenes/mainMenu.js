@@ -1,6 +1,5 @@
 var tetris = tetris || {};
 
-
 //var bt1;
 tetris.mainMenu = {
 
@@ -15,6 +14,7 @@ tetris.mainMenu = {
     
     create:function(){
         
+        
         this.add.text(237,100, "BATTLE TETRIS", {font: "42px Arial",
                                                 fill: "#fff",
                                                 align: "center"});
@@ -26,7 +26,6 @@ tetris.mainMenu = {
         
     },
     update:function(){
-        //this.game.state.start('inGame');
     },
     
     createButton: function(g1, string, x,y,w,h,callback){
