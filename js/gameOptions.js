@@ -1,5 +1,5 @@
 
-var gameConfig = {
+var gameOptions = {
     //Screen size in pixels
     gameWidth: 1366,
     gameHeight: 768,
