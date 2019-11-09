@@ -19,7 +19,7 @@ tetris.mainMenu = {
                                                 fill: "#fff",
                                                 align: "center"});
         
-        var bt1 = this.createButton(this, "Exit", this.world.centerX, this.world.centerY +80, 150, 40, function(){ console.log("Exit"); }); // Change Console.Log por la accion de cerrar.
+        var bt1 = this.createButton(this, "Exit", this.world.centerX, this.world.centerY +80, 150, 40, function(){  this.game.destroy(); }); // Change Console.Log por la accion de cerrar.
 
         var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, function(){this.game.state.start('inGame');});
         
