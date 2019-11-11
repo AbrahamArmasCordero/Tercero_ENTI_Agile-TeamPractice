@@ -22,10 +22,6 @@ tetris.mainMenu = {
         var bt1 = this.createButton(this, "Exit", this.world.centerX, this.world.centerY +80, 150, 40, function(){  this.game.destroy(); }); // Change Console.Log por la accion de cerrar.
 
         var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, function(){this.game.state.start('inGame');});
-        
-        this.grider = new tetris.Grid();
-        //console.log(
-        //this.grider.ReturnCell(9,1).spriteID);
     },
     update:function(){
         

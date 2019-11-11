@@ -8,7 +8,7 @@ const CellStates = {
 
 const SpriteID ={
     O: 0,
-    LR:{
+    L:{
       Right: 1,
       Left: 2
     },
