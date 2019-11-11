@@ -1,0 +1,14 @@
+var tetris = tetris || {};
+
+tetris.lLPiece = function(){
+    this.pieceMatrix = [
+      [0, 1, 0, 0],
+      [0, 1, 0, 0],
+      [1, 1, 0, 0],
+      [0, 0, 0, 0]
+    ];
+    this.spriteID = SpriteID.L.Left;
+};
+ 
+tetris.lLPiece.prototype = Object.create(tetris.piece.prototype);
+tetris.lLPiece.prototype.constructor = tetris.lLPiece;
