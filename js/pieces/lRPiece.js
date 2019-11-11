@@ -22,10 +22,9 @@ tetris.lRPiece = function(){
             [1, 1, 1],
             [1, 0, 0]
         ]
-    ]
-        ;
-    this.spriteID = SpriteID.L.Right;
+    ];
+    this.pieceSprite = 1;
 };
- 
+
 tetris.lRPiece.prototype = Object.create(tetris.piece.prototype);
 tetris.lRPiece.prototype.constructor = tetris.lRPiece;

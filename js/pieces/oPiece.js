@@ -9,8 +9,8 @@ tetris.oPiece = function(){
             [0, 0, 0, 0],
         ]
     ];
-    this.spriteID = SpriteID.O;
+    this.pieceSprite = 0;
 };
- 
+
 tetris.oPiece.prototype = Object.create(tetris.piece.prototype);
 tetris.oPiece.prototype.constructor = tetris.oPiece;

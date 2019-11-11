@@ -27,8 +27,8 @@ tetris.iPiece = function(){
             [0, 1, 0, 0],
         ]
     ];
-    this.spriteID = SpriteID.I;
+     this.pieceSprite = 3;
 };
- 
+
 tetris.iPiece.prototype = Object.create(tetris.piece.prototype);
 tetris.iPiece.prototype.constructor = tetris.iPiece;
