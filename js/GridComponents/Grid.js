@@ -25,7 +25,7 @@ tetris.Grid = function(pixStartX, pixStartY){
         }
     }
     
-
+    this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -127,3 +127,19 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
             break;
     }
 };
+
+tetris.Grid.prototype.SetFallingTime = function(timeMs){
+    this.pieceTimer.delay = timeMs;
+}
+
+tetris.Grid.prototype.FallPiece = function(){
+    if(this.currentPiece != null){
+        
+        if(this.currentPiece.y+1 < gameOptions.gridCellHeightCount-1){
+            console.log('ENtro');
+            this.RemoveCurrentPiece();
+            this.currentPiece.y+=1;
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+        }
+    }
+}

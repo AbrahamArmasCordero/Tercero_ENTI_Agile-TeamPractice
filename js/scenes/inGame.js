@@ -34,11 +34,10 @@ tetris.inGame = {
 
     },
     update:function(){
-        this.player1.TestFunc();
-        this.player2.TestFunc();
+        this.player1.PjUpdate();
+        this.player2.PjUpdate();
         
     },
-    
     play:function(){
         //Play
     },

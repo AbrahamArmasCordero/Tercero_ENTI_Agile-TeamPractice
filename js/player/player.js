@@ -23,7 +23,7 @@ tetris.Player.prototype.CheckLose = function(){
     
 };
 
-tetris.Player.prototype.TestFunc= function(){
+tetris.Player.prototype.PjUpdate = function(){
     
         //LEFT
         if(this.cursors.left.isDown && this.cursors.left.downDuration(1))
