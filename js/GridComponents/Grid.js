@@ -98,19 +98,28 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
         case TypeOfMovement.DROP: 
             break;            
         case TypeOfMovement.FASTER: 
-            this.RemoveCurrentPiece();
-            this.currentPiece.y+=1;
-            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y )
+            if(this.currentPiece.y+1 < gameOptions.gridCellHeightCount-1){
+                console.log('ENtro');
+                this.RemoveCurrentPiece();
+                this.currentPiece.y+=1;
+                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+            }
             break;         
         case TypeOfMovement.LEFT:
-            this.RemoveCurrentPiece();
-            this.currentPiece.x-=1;
-            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y )
+            if(this.currentPiece.x-1 >= 0){
+                this.RemoveCurrentPiece();
+                this.currentPiece.x-=1;
+                
+                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+            }
             break;       
         case TypeOfMovement.RIGHT: 
-            this.RemoveCurrentPiece();
-            this.currentPiece.x+=1;
-            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y )
+            if(this.currentPiece.x+1 < gameOptions.gridCellWidthCount){
+                console.log('derch');
+                this.RemoveCurrentPiece();
+                this.currentPiece.x+=1;
+                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+            }
             break;     
         case TypeOfMovement.ROTATE:
             //this.currentPiece.Rotate()

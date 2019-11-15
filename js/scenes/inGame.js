@@ -56,15 +56,17 @@ tetris.inGame = {
                 this.reset();
                 break;
         }
+        //LEFT
         if(this.inputHandler.cursorsPlayer01.left.isDown && this.inputHandler.cursorsPlayer01.left.downDuration(1))
         {
             this.testGrid.MovePiece(TypeOfMovement.LEFT);
         }
+        //RIGHT
         else if(this.inputHandler.cursorsPlayer01.right.isDown && this.inputHandler.cursorsPlayer01.right.downDuration(1))
         {
             this.testGrid.MovePiece(TypeOfMovement.RIGHT);
         }
-        
+        //DOWN Independent
         if(this.inputHandler.cursorsPlayer01.down.isDown && this.inputHandler.cursorsPlayer01.down.downDuration(1))
         {
             this.testGrid.MovePiece(TypeOfMovement.FASTER);
