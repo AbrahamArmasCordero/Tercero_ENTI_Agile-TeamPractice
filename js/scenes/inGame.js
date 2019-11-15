@@ -16,6 +16,12 @@ tetris.inGame = {
         var ruta = 'assets/img/';
         this.load.image('grid_bg', ruta+'grid_sprite320x640.png');
         this.load.image(SpriteIMG[SpriteID.I], 'assets/img/tetriminos/IPiece32x32.png');
+        this.load.image('LLPiece', ruta + '/tetriminios/LLeftPiece32x32.png');
+        this.load.image('LRPiece', ruta + '/tetriminios/LRightPiece32x32.png');
+        this.load.image('OPiece', ruta + '/tetriminios/OPiece32x32.png');
+        this.load.image('TPiece', ruta + '/tetriminios/TPiece32x32.png');
+        this.load.image('ZLPiece', ruta + '/tetriminios/ZLeftPiece32x32.png');
+        this.load.image('ZRPiece', ruta + '/tetriminios/ZRightPiece32x32.png');
     },
     create:function(){
         

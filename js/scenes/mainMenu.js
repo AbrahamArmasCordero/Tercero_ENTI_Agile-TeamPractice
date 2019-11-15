@@ -7,9 +7,9 @@ tetris.mainMenu = {
         var ruta = 'assets/img/';
         this.game.load.spritesheet('bt1', ruta+'button.png', 268, 101);
         this.game.stage.backgroundColor = '#182d3b';
-
-
         
+
+
     },
     
     create:function(){
