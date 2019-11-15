@@ -30,13 +30,13 @@ tetris.mainMenu = {
     },
     
     createButton: function(g1, string, x,y,w,h,callback){
-        var btn = g1.add.button(x,y, 'button', callback, this, 2,1,0);
+        var btn = g1.add.button(x,y, 'bt1', callback, this, 2,1,0);
         btn.anchor.setTo(0.5,0.5);
         btn.width = w;
         btn.height = h;
         
         var txt = g1.add.text(btn.x, btn.y, string,{font: "25px Arial",
-                                                   fill: "#fff",
+                                                   fill: "#000",
                                                    align: "center"});
         txt.anchor.setTo(0.5,0.5);
     }
