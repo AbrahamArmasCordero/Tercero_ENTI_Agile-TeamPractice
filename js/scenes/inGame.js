@@ -28,8 +28,12 @@ tetris.inGame = {
         this.inputHandler = new tetris.inputManager(tetris.game);
         
         this.testGrid = new tetris.Grid(gameOptions.grid01PositionX,gameOptions.grid01PositionY);
-        this.testGrid.AddPiece(new tetris.lLPiece(), 3, 0);
+        this.testGrid.AddPiece(new tetris.lLPiece(), 1, 0);
         this.testGrid.MovePiece(TypeOfMovement.LEFT);
+        
+        this.testGrid02 = new tetris.Grid(gameOptions.grid02PositionX, gameOptions.grid02PositionY);
+        this.testGrid02.AddPiece(new tetris.lLPiece(), 1, 0);
+        this.testGrid02.MovePiece(TypeOfMovement.LEFT);
     },
     update:function(){
         //LEFT
@@ -46,6 +50,21 @@ tetris.inGame = {
         if(this.inputHandler.cursorsPlayer01.down.isDown && this.inputHandler.cursorsPlayer01.down.downDuration(1))
         {
             this.testGrid.MovePiece(TypeOfMovement.FASTER);
+        }
+        
+        if(this.inputHandler.cursorsPlayer02.left.isDown && this.inputHandler.cursorsPlayer02.left.downDuration(1))
+        {
+            this.testGrid02.MovePiece(TypeOfMovement.LEFT);
+        }
+        //RIGHT
+        else if(this.inputHandler.cursorsPlayer02.right.isDown && this.inputHandler.cursorsPlayer02.right.downDuration(1))
+        {
+            this.testGrid02.MovePiece(TypeOfMovement.RIGHT);
+        }
+        //DOWN Independent
+        if(this.inputHandler.cursorsPlayer02.down.isDown && this.inputHandler.cursorsPlayer02.down.downDuration(1))
+        {
+            this.testGrid02.MovePiece(TypeOfMovement.FASTER);
         }
     },
     

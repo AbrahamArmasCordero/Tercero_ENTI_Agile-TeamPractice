@@ -58,15 +58,16 @@ tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
         {
             if(this.currentPiece.pieceMatrix[this.currentPiece.rotatedState][x][y] == 1)
             {
-                var posX = this.currentPiece.x+y;
-                var posY = this.currentPiece.y+x;
-                var pixX = gameOptions.cellWidth*posX;
-                var pixY = gameOptions.cellHeight*posY;
+                var posX = this.currentPiece.x + y;
+                var posY = this.currentPiece.y + x;
+                
+                var pixX = gameOptions.cellWidth * posX;
+                var pixY = gameOptions.cellHeight * posY;
                 
                  this.gridMatrix[posY][posX].spriteID = this.currentPiece.pieceSprite;
                  this.gridMatrix[posY][posX].state = CellStates.MOVING;
                  this.gridMatrix[posY][posX].img = 
-                     tetris.game.add.image(this.startCellX+pixX,this.startCellY+pixY, SpriteIMG[this.currentPiece.pieceSprite]);
+                     tetris.game.add.image(this.startCellX + pixX,this.startCellY + pixY, SpriteIMG[this.currentPiece.pieceSprite]);
             }
         }
     }

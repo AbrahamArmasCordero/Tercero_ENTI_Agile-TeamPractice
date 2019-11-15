@@ -12,6 +12,7 @@ var gameOptions = {
     //Position in screen with pixels of grids
     grid01PositionX: 182,
     grid01PositionY: 80,
+    
     grid02PositionX: 864,
     grid02PositionY: 80
 };
