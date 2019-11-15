@@ -51,6 +51,20 @@ tetris.inGame = {
         {
             this.testGrid.MovePiece(TypeOfMovement.FASTER);
         }
+        if(this.inputHandler.cursorsPlayer01.up.isDown && this.inputHandler.cursorsPlayer01.up.downDuration(1))
+        {
+            //this.testGrid.MovePiece(TypeOfMovement.DROP);
+        }
+        if(this.inputHandler.cursorsPlayer01.hold.isDown && this.inputHandler.cursorsPlayer01.hold.downDuration(1))
+        {
+            //this.testGrid.MovePiece(TypeOfMovement.FASTER);
+        }
+        if(this.inputHandler.cursorsPlayer01.rotate.isDown && this.inputHandler.cursorsPlayer01.rotate.downDuration(1))
+        {
+            this.testGrid.MovePiece(TypeOfMovement.ROTATE);
+        }
+        
+        
         
         if(this.inputHandler.cursorsPlayer02.left.isDown && this.inputHandler.cursorsPlayer02.left.downDuration(1))
         {
@@ -65,6 +79,18 @@ tetris.inGame = {
         if(this.inputHandler.cursorsPlayer02.down.isDown && this.inputHandler.cursorsPlayer02.down.downDuration(1))
         {
             this.testGrid02.MovePiece(TypeOfMovement.FASTER);
+        }
+        if(this.inputHandler.cursorsPlayer02.up.isDown && this.inputHandler.cursorsPlayer02.up.downDuration(1))
+        {
+            //this.testGrid.MovePiece(TypeOfMovement.DROP);
+        }
+        if(this.inputHandler.cursorsPlayer02.hold.isDown && this.inputHandler.cursorsPlayer02.hold.downDuration(1))
+        {
+            //this.testGrid.MovePiece(TypeOfMovement.FASTER);
+        }
+        if(this.inputHandler.cursorsPlayer02.rotate.isDown && this.inputHandler.cursorsPlayer02.rotate.downDuration(1))
+        {
+            this.testGrid.MovePiece(TypeOfMovement.ROTATE);
         }
     },
     
