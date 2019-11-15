@@ -11,8 +11,8 @@ const TypeOfMovement ={
 tetris.Grid = function(){
 
     this.gridMatrix = new Array(gameOptions.gridCellHeightCount);
-    //this.currenPiece = new tetris.Piece();
-    //this.nextPiece = new tetris.Piece();
+    this.currenPiece = new tetris.iPiece();
+    this.nextPiece = new tetris.oPiece();
     
     for(var x = 0; x < gameOptions.gridCellHeightCount; x++)
     {
@@ -24,7 +24,6 @@ tetris.Grid = function(){
             //this.gridMatrix[x][y].spriteID = 'R'+x+'C'+y;
             //debug+=this.gridMatrix[x][y].spriteID+',';
         }
-        //console.log(debug)
     }
 };
  

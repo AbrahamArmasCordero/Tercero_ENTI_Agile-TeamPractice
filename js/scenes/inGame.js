@@ -6,21 +6,21 @@ var player01;
 var player02;
 
 tetris.inGame = {
-    
+    init:function(){
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.scale.pageAlignHorizontally = true;
+        this.scale.pageAlignVertically = true;
+    },
     preload:function(){
         //game.stage.backgroundColor = "#FF0000";
         var ruta = 'assets/img/';
-        this.load.image('bg1',ruta+'backgrounds/background_back.png');
-        this.load.image('bg2',ruta+'backgrounds/background_frontal.png');
+        this.load.image('grid_bg', ruta+'grid_sprite320x640.png')
     },
     create:function(){
         
         estate = 1;
-        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.scale.pageAlignHorizontally = true;
-        
-        this.bg1 = this.game.add.tileSprite(0,0,128,256,'bg1');
-        this.bg2 = this.game.add.tileSprite(0,0,128,256,'bg2');
+        this.pj1GridBG = this.game.add.image(182,82, 'grid_bg');
+        this.pj2GridBG = this.game.add.image(864,82, 'grid_bg');
         
         switch(difficulty){
             case 0: //FACIL
@@ -54,8 +54,6 @@ tetris.inGame = {
     },
     
     play:function(){
-        this.bg1.tilePosition.y+=1;
-        this.bg2.tilePosition.y+=2;
         //Play
     },
     pause:function(){
