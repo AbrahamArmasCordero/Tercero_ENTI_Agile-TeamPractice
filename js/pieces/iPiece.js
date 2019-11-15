@@ -27,6 +27,7 @@ tetris.iPiece = function(){
             [0, 1, 0, 0],
         ]
     ];
+    
      this.pieceSprite = 3;
 };
 
