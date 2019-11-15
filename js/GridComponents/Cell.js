@@ -17,13 +17,21 @@ const SpriteID ={
     Z: {
         Right: 5,
         Left: 6
-    }
+    },
+    NULL: 7
 }
+
+const SpriteIMG = ['Opiece','LRpiece','LLpiece','Ipiece','Tpiece','ZRpiece','ZLpiece']
 
 tetris.Cell = function(){
     this.state = CellStates.EMPTY;
     this.spriteID = SpriteID.O;
+    this.img = null;
 };
  
 tetris.Cell.prototype = Object.create(tetris.Cell.prototype);
 tetris.Cell.prototype.constructor = tetris.Cell;
+
+tetris.Cell.prototype.DestroyImg = function(){
+    this.img.destroy();
+}
