@@ -7,9 +7,15 @@ tetris.mainMenu = {
         var ruta = 'assets/img/';
         this.game.load.spritesheet('bt1', ruta+'button.png', 268, 101);
         this.game.stage.backgroundColor = '#182d3b';
+        //LoadAllTetriminions
+        this.load.image('IPiece', ruta + '/tetriminios/IPiece32x32.png');
+        this.load.image('LLPiece', ruta + '/tetriminios/LLeftPiece32x32.png');
+        this.load.image('LRPiece', ruta + '/tetriminios/LRightPiece32x32.png');
+        this.load.image('OPiece', ruta + '/tetriminios/OPiece32x32.png');
+        this.load.image('TPiece', ruta + '/tetriminios/TPiece32x32.png');
+        this.load.image('ZLPiece', ruta + '/tetriminios/ZLeftPiece32x32.png');
+        this.load.image('ZRPiece', ruta + '/tetriminios/ZRightPiece32x32.png');
 
-
-        
     },
     
     create:function(){

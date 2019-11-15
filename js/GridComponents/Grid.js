@@ -11,6 +11,7 @@ const TypeOfMovement ={
 tetris.Grid = function(){
 
     this.gridMatrix = new Array(gameOptions.gridCellHeightCount);
+    var Pieza = tetris.game.add.image(32,32, "")
     //this.currenPiece = new tetris.Piece();
     //this.nextPiece = new tetris.Piece();
     
