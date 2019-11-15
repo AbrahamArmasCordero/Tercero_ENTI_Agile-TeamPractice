@@ -1,10 +1,5 @@
 var tetris = tetris || {};
 
-var difficulty;
-var estate;
-var player01;
-var player02;
-
 tetris.inGame = {
     init:function(){
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -15,13 +10,15 @@ tetris.inGame = {
         //game.stage.backgroundColor = "#FF0000";
         var ruta = 'assets/img/';
         this.load.image('grid_bg', ruta+'grid_sprite320x640.png');
-        this.load.image(SpriteIMG[SpriteID.I], 'assets/img/tetriminos/IPiece32x32.png');
-        this.load.image('LLPiece', ruta + '/tetriminios/LLeftPiece32x32.png');
-        this.load.image('LRPiece', ruta + '/tetriminios/LRightPiece32x32.png');
-        this.load.image('OPiece', ruta + '/tetriminios/OPiece32x32.png');
-        this.load.image('TPiece', ruta + '/tetriminios/TPiece32x32.png');
-        this.load.image('ZLPiece', ruta + '/tetriminios/ZLeftPiece32x32.png');
-        this.load.image('ZRPiece', ruta + '/tetriminios/ZRightPiece32x32.png');
+        
+        this.load.image(SpriteIMG[SpriteID.I], ruta+ 'tetriminos/IPiece32x32.png');
+        
+        this.load.image(SpriteIMG[SpriteID.L.Left], ruta + 'tetriminos/LLeftPiece32x32.png');
+        this.load.image(SpriteIMG[SpriteID.L.Right], ruta + 'tetriminos/LRightPiece32x32.png');
+        this.load.image(SpriteIMG[SpriteID.O], ruta+ 'tetriminos/OPiece32x32.png');
+        this.load.image(SpriteIMG[SpriteID.T], ruta + 'tetriminos/TPiece32x32.png');
+        this.load.image(SpriteIMG[SpriteID.Z.Left], ruta + 'tetriminos/ZLeftPiece32x32.png');
+        this.load.image(SpriteIMG[SpriteID.Z.Right], ruta + 'tetriminos/ZRightPiece32x32.png');
     },
     create:function(){
         
@@ -29,39 +26,12 @@ tetris.inGame = {
         this.pj1GridBG = this.game.add.image(182,80, 'grid_bg');
         this.pj2GridBG = this.game.add.image(864,80, 'grid_bg');
         this.inputHandler = new tetris.inputManager(tetris.game);
-        switch(difficulty){
-            case 0: //FACIL
-                break;
-            case 1: //NORMAL
-                break;
-            case 2: //DIFICIL
-                break;
-            case 3: //MUY DIFICIL
-                break;
-        }
-        this.testGrid = new tetris.Grid(gameOptions.grid01PositionX,gameOptions.grid01PositionY);
-        this.testGrid.AddPiece(new tetris.iPiece(), 3, 0);
-        this.testGrid.MovePiece(TypeOfMovement.LEFT);
         
+        this.testGrid = new tetris.Grid(gameOptions.grid01PositionX,gameOptions.grid01PositionY);
+        this.testGrid.AddPiece(new tetris.lLPiece(), 3, 0);
+        this.testGrid.MovePiece(TypeOfMovement.LEFT);
     },
     update:function(){
-        
-        switch(estate){
-            case 0: //Timer para que los dos jugadores esten a punto. Aun no hay que hacerlo.
-                break;
-            case 1: //Empieza la partida
-                this.play();
-                break;
-            case 2: //Detenemos el curso del juego
-                this.pause();
-                break;
-            case 3: //Finalizamos la partida
-                this.end();
-                break;
-            case 4: //Reiniciamos la partida
-                this.reset();
-                break;
-        }
         //LEFT
         if(this.inputHandler.cursorsPlayer01.left.isDown && this.inputHandler.cursorsPlayer01.left.downDuration(1))
         {
@@ -77,7 +47,6 @@ tetris.inGame = {
         {
             this.testGrid.MovePiece(TypeOfMovement.FASTER);
         }
-        
     },
     
     play:function(){
