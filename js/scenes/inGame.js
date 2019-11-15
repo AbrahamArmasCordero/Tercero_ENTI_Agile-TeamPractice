@@ -12,6 +12,15 @@ tetris.inGame = {
         var ruta = 'assets/img/';
         this.load.image('bg1',ruta+'backgrounds/background_back.png');
         this.load.image('bg2',ruta+'backgrounds/background_frontal.png');
+        
+        //LoadAllTetriminions
+        this.load.image('IPiece', ruta + '/tetriminios/IPiece32x32.png');
+        this.load.image('LLPiece', ruta + '/tetriminios/LLeftPiece32x32.png');
+        this.load.image('LRPiece', ruta + '/tetriminios/LRightPiece32x32.png');
+        this.load.image('OPiece', ruta + '/tetriminios/OPiece32x32.png');
+        this.load.image('TPiece', ruta + '/tetriminios/TPiece32x32.png');
+        this.load.image('ZLPiece', ruta + '/tetriminios/ZLeftPiece32x32.png');
+        this.load.image('ZRPiece', ruta + '/tetriminios/ZRightPiece32x32.png');
     },
     create:function(){
         
