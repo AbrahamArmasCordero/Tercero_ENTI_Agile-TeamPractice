@@ -25,28 +25,18 @@ tetris.inGame = {
         estate = 1;
         this.pj1GridBG = this.game.add.image(182,80, 'grid_bg');
         this.pj2GridBG = this.game.add.image(864,80, 'grid_bg');
+        
         this.inputHandler = new tetris.inputManager(tetris.game);
         
-        this.testGrid = new tetris.Grid(gameOptions.grid01PositionX,gameOptions.grid01PositionY);
-        this.testGrid.AddPiece(new tetris.lLPiece(), 3, 0);
-        this.testGrid.MovePiece(TypeOfMovement.LEFT);
+        this.player1 = new tetris.Player(this.inputHandler.cursorsPlayer01, gameOptions.grid01PositionX,gameOptions.grid01PositionY);
+        
+        this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, gameOptions.grid02PositionX, gameOptions.grid02PositionY);
+
     },
     update:function(){
-        //LEFT
-        if(this.inputHandler.cursorsPlayer01.left.isDown && this.inputHandler.cursorsPlayer01.left.downDuration(1))
-        {
-            this.testGrid.MovePiece(TypeOfMovement.LEFT);
-        }
-        //RIGHT
-        else if(this.inputHandler.cursorsPlayer01.right.isDown && this.inputHandler.cursorsPlayer01.right.downDuration(1))
-        {
-            this.testGrid.MovePiece(TypeOfMovement.RIGHT);
-        }
-        //DOWN Independent
-        if(this.inputHandler.cursorsPlayer01.down.isDown && this.inputHandler.cursorsPlayer01.down.downDuration(1))
-        {
-            this.testGrid.MovePiece(TypeOfMovement.FASTER);
-        }
+        this.player1.TestFunc();
+        this.player2.TestFunc();
+        
     },
     
     play:function(){
