@@ -14,8 +14,10 @@ tetris.mainMenu = {
     
     create:function(){
         
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.scale.pageAlignHorizontally = true;
         
-        this.add.text(237,100, "BATTLE TETRIS", {font: "42px Arial",
+        this.add.text( this.world.centerX - 150, 100, "BATTLE TETRIS", {font: "42px Arial",
                                                 fill: "#fff",
                                                 align: "center"});
         
