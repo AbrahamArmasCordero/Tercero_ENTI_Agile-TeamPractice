@@ -1,7 +1,7 @@
 var tetris = tetris || {};
 
 tetris.inputManager = function(_game){
-    //Inputs from Player 02
+    //Inputs for Player 02
     this.cursorsPlayer02 = _game.input.keyboard.addKeys(
             { 'up': Phaser.KeyCode.UP, 
              'down': Phaser.KeyCode.DOWN, 
@@ -12,7 +12,7 @@ tetris.inputManager = function(_game){
         //Keypad 0 = Rotate / CTRL 2 = Hold
 
     
-    //Input from Player 01
+    //Input for Player 01
     this.cursorsPlayer01 = _game.input.keyboard.addKeys( 
             { 'up': Phaser.KeyCode.W, 
              'down': Phaser.KeyCode.S, 

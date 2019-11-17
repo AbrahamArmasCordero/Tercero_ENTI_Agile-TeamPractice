@@ -29,6 +29,7 @@ tetris.mainMenu = {
         
     },
     
+    //Creates a button given the game and his basic propierties
     createButton: function(g1, string, x,y,w,h,callback){
         var btn = g1.add.button(x,y, 'bt1', callback, this, 2,1,0);
         btn.anchor.setTo(0.5,0.5);

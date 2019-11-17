@@ -13,6 +13,7 @@ tetris.Grid = function(pixStartX, pixStartY){
     this.startCellX = pixStartX;
     this.startCellY = pixStartY;
     
+    //Create the matrix grid
     this.gridMatrix = new Array(gameOptions.gridCellHeightCount);
 
     for(var x = 0; x < gameOptions.gridCellHeightCount; x++)
@@ -25,6 +26,7 @@ tetris.Grid = function(pixStartX, pixStartY){
         }
     }
     
+    //Fall loop pieces
     this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
 };
  
@@ -73,6 +75,7 @@ tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
     }
 };
 
+//Clean the current piece of the grid
 tetris.Grid.prototype.RemoveCurrentPiece = function(){
     
     for(var x = 0; x < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; x++)
@@ -123,7 +126,7 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
             }
             break;     
         case TypeOfMovement.ROTATE:
-            //this.currentPiece.Rotate()
+            //Rotate the piece
             break;
     }
 };
@@ -136,7 +139,6 @@ tetris.Grid.prototype.FallPiece = function(){
     if(this.currentPiece != null){
         
         if(this.currentPiece.y+1 < gameOptions.gridCellHeightCount-1){
-            console.log('ENtro');
             this.RemoveCurrentPiece();
             this.currentPiece.y+=1;
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );

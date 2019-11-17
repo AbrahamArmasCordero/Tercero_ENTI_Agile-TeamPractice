@@ -7,7 +7,6 @@ tetris.inGame = {
         this.scale.pageAlignVertically = true;
     },
     preload:function(){
-        //game.stage.backgroundColor = "#FF0000";
         var ruta = 'assets/img/';
         this.load.image('grid_bg', ruta+'grid_sprite320x640.png');
         
@@ -23,14 +22,17 @@ tetris.inGame = {
     create:function(){
         
         estate = 1;
+        //Bg grids
         this.pj1GridBG = this.game.add.image(182,80, 'grid_bg');
         this.pj2GridBG = this.game.add.image(864,80, 'grid_bg');
         
+        //Inputs
         this.inputHandler = new tetris.inputManager(tetris.game);
         
-        this.player1 = new tetris.Player(this.inputHandler.cursorsPlayer01, gameOptions.grid01PositionX,gameOptions.grid01PositionY);
+        //Players
+        this.player1 = new tetris.Player(this.inputHandler.cursorsPlayer01,                                                                                     gameOptions.grid01PositionX, gameOptions.grid01PositionY);
         
-        this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, gameOptions.grid02PositionX, gameOptions.grid02PositionY);
+        this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, gameOptions.grid02PositionX,                                                         gameOptions.grid02PositionY);
 
     },
     update:function(){
