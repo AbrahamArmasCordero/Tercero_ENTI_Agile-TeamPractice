@@ -97,33 +97,21 @@ tetris.Grid.prototype.RemoveCurrentPiece = function(){
 };
 
 tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
-    switch(_typeOfMovement){
-            
-        case TypeOfMovement.DROP: 
-            break;            
+    switch(_typeOfMovement){                 
         case TypeOfMovement.FASTER: 
-            if(this.currentPiece.y+1 < gameOptions.gridCellHeightCount-1){
-                console.log('ENtro');
-                this.RemoveCurrentPiece();
-                this.currentPiece.y+=1;
-                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
-            }
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.FASTER, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;         
         case TypeOfMovement.LEFT:
-            if(this.currentPiece.x-1 >= 0){
-                this.RemoveCurrentPiece();
-                this.currentPiece.x-=1;
-                
-                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
-            }
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.LEFT, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;       
         case TypeOfMovement.RIGHT: 
-            if(this.currentPiece.x+1 < gameOptions.gridCellWidthCount){
-                console.log('derch');
-                this.RemoveCurrentPiece();
-                this.currentPiece.x+=1;
-                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
-            }
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.RIGHT, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;     
         case TypeOfMovement.ROTATE:
             //Rotate the piece
@@ -137,10 +125,9 @@ tetris.Grid.prototype.SetFallingTime = function(timeMs){
 
 tetris.Grid.prototype.FallPiece = function(){
     if(this.currentPiece != null){
-        
-        if(this.currentPiece.y+1 < gameOptions.gridCellHeightCount-1){
+        if(!this.currentPiece.IsCollisionBottom(this)){
             this.RemoveCurrentPiece();
-            this.currentPiece.y+=1;
+            this.currentPiece.MovePiece(TypeOfMovement.FASTER,this)
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
         }
     }
