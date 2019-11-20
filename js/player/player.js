@@ -9,8 +9,6 @@ tetris.Player = function(controller, pixStartX, pixStartY){
     
     this.cursors = controller;
     this.myGrid = new tetris.Grid(pixStartX,pixStartY);
-    //Testing piece
-    this.myGrid.AddPiece(new tetris.iPiece(),3,0);
 };
 
 tetris.Player.prototype = Object.create(tetris.Player.prototype);
@@ -43,7 +41,7 @@ tetris.Player.prototype.PjUpdate = function(){
         }
         if(this.cursors.up.isDown && this.cursors.up.downDuration(1))
         {
-            //this.myGrid.MovePiece(TypeOfMovement.DROP);
+            this.myGrid.MovePiece(TypeOfMovement.DROP);
         }
         if(this.cursors.hold.isDown && this.cursors.hold.downDuration(1))
         {

@@ -28,6 +28,8 @@ tetris.Grid = function(pixStartX, pixStartY){
     
     //Fall loop pieces
     this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
+    
+    this.SpawnNewPiece();
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -97,34 +99,27 @@ tetris.Grid.prototype.RemoveCurrentPiece = function(){
 };
 
 tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
-    switch(_typeOfMovement){
-            
-        case TypeOfMovement.DROP: 
-            break;            
+    switch(_typeOfMovement){                 
         case TypeOfMovement.FASTER: 
-            if(this.currentPiece.y+1 < gameOptions.gridCellHeightCount-1){
-                console.log('ENtro');
-                this.RemoveCurrentPiece();
-                this.currentPiece.y+=1;
-                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
-            }
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.FASTER, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;         
         case TypeOfMovement.LEFT:
-            if(this.currentPiece.x-1 >= 0){
-                this.RemoveCurrentPiece();
-                this.currentPiece.x-=1;
-                
-                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
-            }
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.LEFT, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;       
         case TypeOfMovement.RIGHT: 
-            if(this.currentPiece.x+1 < gameOptions.gridCellWidthCount){
-                console.log('derch');
-                this.RemoveCurrentPiece();
-                this.currentPiece.x+=1;
-                this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
-            }
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.RIGHT, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;     
+        case TypeOfMovement.DROP:
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.DROP, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+            break;
         case TypeOfMovement.ROTATE:
             //Rotate the piece
             break;
@@ -137,11 +132,40 @@ tetris.Grid.prototype.SetFallingTime = function(timeMs){
 
 tetris.Grid.prototype.FallPiece = function(){
     if(this.currentPiece != null){
-        
-        if(this.currentPiece.y+1 < gameOptions.gridCellHeightCount-1){
+        if(!this.currentPiece.IsCollisionSide(this, CollisionSide.BOTTOM)){
             this.RemoveCurrentPiece();
-            this.currentPiece.y+=1;
+            this.currentPiece.MovePiece(TypeOfMovement.FASTER,this)
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+        }else{
+            this.PlacePiece(this.currentPiece);
+            this.SpawnNewPiece();
         }
     }
+}
+
+tetris.Grid.prototype.PlacePiece = function(piece){
+    var placedPiece = piece;
+    
+    for(var x = 0; x < placedPiece.pieceMatrix[placedPiece.rotatedState].length; x++)
+    {
+        for(var y = 0 ; y < placedPiece.pieceMatrix[placedPiece.rotatedState].length; y++)
+        {
+            if(placedPiece.pieceMatrix[placedPiece.rotatedState][x][y] == 1)
+            {
+                var posX = placedPiece.x + y;
+                var posY = placedPiece.y + x;
+                
+                var pixX = gameOptions.cellWidth * posX;
+                var pixY = gameOptions.cellHeight * posY;
+                
+                 this.gridMatrix[posY][posX].spriteID = placedPiece.pieceSprite;
+                 this.gridMatrix[posY][posX].state = CellStates.PLACED;
+                 this.gridMatrix[posY][posX].img = 
+                     tetris.game.add.image(this.startCellX + pixX, this.startCellY + pixY, SpriteIMG[placedPiece.pieceSprite]);
+            }
+        }
+    }
+}
+tetris.Grid.prototype.SpawnNewPiece = function(){
+    this.AddPiece(new tetris.iPiece(),3,0);
 }
