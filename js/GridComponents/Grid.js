@@ -132,3 +132,27 @@ tetris.Grid.prototype.FallPiece = function(){
         }
     }
 }
+
+tetris.Grid.prototype.PlacePeace = function(piece){
+    var placedPiece = piece;
+    
+    for(var x = 0; x < placedPiece.pieceMatrix[placedPiece.rotatedState].length; x++)
+    {
+        for(var y = 0 ; y < placedPiece.pieceMatrix[placedPiece.rotatedState].length; y++)
+        {
+            if(placedPiece.pieceMatrix[placedPiece.rotatedState][x][y] == 1)
+            {
+                var posX = placedPiece.x + y;
+                var posY = placedPiece.y + x;
+                
+                var pixX = gameOptions.cellWidth * posX;
+                var pixY = gameOptions.cellHeight * posY;
+                
+                 this.gridMatrix[posY][posX].spriteID = placedPiece.pieceSprite;
+                 this.gridMatrix[posY][posX].state = CellStates.PLACED;
+                 this.gridMatrix[posY][posX].img = 
+                     tetris.game.add.image(this.startCellX + pixX, this.startCellY + pixY, SpriteIMG[placedPiece.pieceSprite]);
+            }
+        }
+    }
+}
