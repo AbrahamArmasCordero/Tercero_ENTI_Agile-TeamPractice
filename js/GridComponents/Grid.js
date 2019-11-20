@@ -28,6 +28,8 @@ tetris.Grid = function(pixStartX, pixStartY){
     
     //Fall loop pieces
     this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
+    
+    this.SpawnNewPiece();
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -113,6 +115,11 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
             this.currentPiece.MovePiece(TypeOfMovement.RIGHT, this)
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;     
+        case TypeOfMovement.DROP:
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.DROP, this)
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+            break;
         case TypeOfMovement.ROTATE:
             //Rotate the piece
             break;
@@ -125,15 +132,18 @@ tetris.Grid.prototype.SetFallingTime = function(timeMs){
 
 tetris.Grid.prototype.FallPiece = function(){
     if(this.currentPiece != null){
-        if(!this.currentPiece.IsCollisionBottom(this)){
+        if(!this.currentPiece.IsCollisionSide(this, CollisionSide.BOTTOM)){
             this.RemoveCurrentPiece();
             this.currentPiece.MovePiece(TypeOfMovement.FASTER,this)
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
+        }else{
+            this.PlacePiece(this.currentPiece);
+            this.SpawnNewPiece();
         }
     }
 }
 
-tetris.Grid.prototype.PlacePeace = function(piece){
+tetris.Grid.prototype.PlacePiece = function(piece){
     var placedPiece = piece;
     
     for(var x = 0; x < placedPiece.pieceMatrix[placedPiece.rotatedState].length; x++)
@@ -155,4 +165,7 @@ tetris.Grid.prototype.PlacePeace = function(piece){
             }
         }
     }
+}
+tetris.Grid.prototype.SpawnNewPiece = function(){
+    this.AddPiece(new tetris.iPiece(),3,0);
 }

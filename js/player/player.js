@@ -9,8 +9,6 @@ tetris.Player = function(controller, pixStartX, pixStartY){
     
     this.cursors = controller;
     this.myGrid = new tetris.Grid(pixStartX,pixStartY);
-    //Testing piece
-    this.myGrid.AddPiece(new tetris.oPiece(),3,0);
 };
 
 tetris.Player.prototype = Object.create(tetris.Player.prototype);
