@@ -3,7 +3,6 @@ var tetris = tetris || {};
 var Score;
 var Name;
 var holdedPiece;
-var Grid;
 
 tetris.Player = function(controller, pixStartX, pixStartY){
     
@@ -19,7 +18,7 @@ tetris.Player.prototype.Update = function(){
 };
 
 tetris.Player.prototype.CheckLose = function(){
-    
+    return false;
 };
 
 tetris.Player.prototype.PjUpdate = function(){
