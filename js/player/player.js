@@ -19,7 +19,7 @@ tetris.Player.prototype.Update = function(){
 };
 
 tetris.Player.prototype.CheckLose = function(){
-    
+    return false;
 };
 
 tetris.Player.prototype.PjUpdate = function(){

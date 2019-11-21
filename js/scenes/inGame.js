@@ -29,7 +29,7 @@ tetris.inGame = {
         //Load Pause state
         
         //Load End state
-
+         this.load.image('end_bg', ruta + 'backgrounds/endBackground.png');
     },
     create:function(){
         
@@ -46,8 +46,8 @@ tetris.inGame = {
         
         this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, gameOptions.grid02PositionX,                                                         gameOptions.grid02PositionY);
         //End 
-        
-
+        this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameWidth, 'end_bg');
+        this.endBg.kill();
     },
     update:function(){
         switch(this.playingState){
@@ -56,6 +56,12 @@ tetris.inGame = {
             case PlayingStates.PLAY:
                 this.player1.PjUpdate();
                 this.player2.PjUpdate();
+                if(this.player1.CheckLose() || this.player2.CheckLose()){
+                    this.toEnd();
+                }
+                if(this.player1.cursors.up.isDown){
+                    this.toEnd();
+                }
                 break;
             case PlayingStates.PAUSE:
                 break;
@@ -72,4 +78,12 @@ tetris.inGame = {
     reset:function(){
         //Reiniciar  
     },
+    toEnd:function(){
+        this.playingState = PlayingStates.END;
+        this.endBg.revive();
+        this.endBg.bringToTop();
+    
+        this.player1.myGrid.pieceTimer.timer.stop(true);
+        this.player2.myGrid.pieceTimer.timer.stop(true);
+    }
 };
