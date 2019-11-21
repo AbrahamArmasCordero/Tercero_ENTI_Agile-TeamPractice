@@ -39,12 +39,52 @@ tetris.Grid.prototype.ReturnCell = function(row, colum){
         return this.gridMatrix[row][colum];
 };
 
-tetris.Grid.prototype.CheckLine = function(){
-    
+tetris.Grid.prototype.CheckLine = function(posY){
+
+    for (var posX = 0 ; posX < gameOptions.gridCellWidthCount; posX++)
+    {
+        if(this.gridMatrix[posY][posX].state == CellStates.EMPTY)
+        {
+            return false;
+        }
+    }
+    return true;
 };
 
 tetris.Grid.prototype.ScoreLines = function(){
     
+    var linesToDelete = [];
+    var numOfLines = 0;
+    for(var x = 0; x < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; x++)
+    {
+        for(var y = 0 ; y < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; y++)
+        {
+            if(this.currentPiece.pieceMatrix[this.currentPiece.rotatedState][x][y] == 1)
+            {
+                var posY = this.currentPiece.y+x;
+                var alreadyADeleted = linesToDelete.find(function(posTocheck){
+                    return posTocheck == posY;
+                });
+                if(this.CheckLine(posY) && (alreadyADeleted == null))
+                {
+                    //count one line numOfLines++
+                    numOfLines++;
+                    //save line pos
+                    linesToDelete.push(posY);
+                }
+            }
+        }
+    }
+    if(numOfLines >= 4)
+    {
+        //tetris
+        //numoflines * scoreOfOneLine * tetris Multiplier
+    }
+    else if(numOfLines > 0 ){
+        //score += numOfLines*scoreOfOneLine
+    }
+    //if numofLines >= 4 make tetris happen
+    //else clearLines at saved Position
 };
 
 tetris.Grid.prototype.ClearLine = function(){
@@ -76,7 +116,6 @@ tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
         }
     }
 };
-
 //Clean the current piece of the grid
 tetris.Grid.prototype.RemoveCurrentPiece = function(){
     
@@ -88,8 +127,7 @@ tetris.Grid.prototype.RemoveCurrentPiece = function(){
             {
                 var posX = this.currentPiece.x+y;
                 var posY = this.currentPiece.y+x;
-                var pixX = gameOptions.cellWidth*posX;
-                var pixY = gameOptions.cellHeight*posY;
+                
                  this.gridMatrix[posY][posX].spriteID = SpriteID.NULL;
                  this.gridMatrix[posY][posX].state = CellStates.EMPTY;
                  this.gridMatrix[posY][posX].DestroyImg();
@@ -138,6 +176,10 @@ tetris.Grid.prototype.FallPiece = function(){
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
         }else{
             this.PlacePiece(this.currentPiece);
+            
+            //aqui miro lineas y tetris
+            this.ScoreLines();
+            
             this.SpawnNewPiece();
         }
     }
@@ -166,6 +208,7 @@ tetris.Grid.prototype.PlacePiece = function(piece){
         }
     }
 }
+
 tetris.Grid.prototype.SpawnNewPiece = function(){
-    this.AddPiece(new tetris.iPiece(),3,0);
+    this.AddPiece(new tetris.oPiece(),3,0);
 }
