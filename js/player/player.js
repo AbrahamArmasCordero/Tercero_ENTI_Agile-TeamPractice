@@ -3,7 +3,6 @@ var tetris = tetris || {};
 var Score;
 var Name;
 var holdedPiece;
-var Grid;
 
 tetris.Player = function(controller, pixStartX, pixStartY){
     

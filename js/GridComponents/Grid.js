@@ -28,6 +28,7 @@ tetris.Grid = function(pixStartX, pixStartY){
     
     //Fall loop pieces
     this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
+    this.pieceTimer.timer.pause();
     
     this.SpawnNewPiece();
 };
@@ -90,9 +91,9 @@ tetris.Grid.prototype.RemoveCurrentPiece = function(){
                 var posY = this.currentPiece.y+x;
                 var pixX = gameOptions.cellWidth*posX;
                 var pixY = gameOptions.cellHeight*posY;
-                 this.gridMatrix[posY][posX].spriteID = SpriteID.NULL;
-                 this.gridMatrix[posY][posX].state = CellStates.EMPTY;
-                 this.gridMatrix[posY][posX].DestroyImg();
+                this.gridMatrix[posY][posX].spriteID = SpriteID.NULL;
+                this.gridMatrix[posY][posX].state = CellStates.EMPTY;
+                this.gridMatrix[posY][posX].DestroyImg();
             }
         }
     }
