@@ -41,45 +41,63 @@ tetris.Grid.prototype.ScoreLines = function(){
     
     var linesToDelete = [];
     var numOfLines = 0;
-    for(var x = 0; x < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; x++)
+    for(var y = gameOptions.gridCellHeightCount-1; y >= 0; y--)
     {
-        for(var y = 0 ; y < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; y++)
+        //primero miro si es posible que esta fila pueda ser completada
+        if(this.gridMatrix[y][gameOptions.gridCellWidthCount-1].state == CellStates.PLACED)
         {
-            if(this.currentPiece.pieceMatrix[this.currentPiece.rotatedState][x][y] == 1)
+            var posY = y;
+            var alreadyADeleted = linesToDelete.find(function(posTocheck){
+                return posTocheck == posY;
+            });
+            //miro si ya no la habiamos mirado antes y si esta llena
+            if(this.CheckFullLine(posY) && (alreadyADeleted == null))
             {
-                var posY = this.currentPiece.y+x;
-                var alreadyADeleted = linesToDelete.find(function(posTocheck){
-                    return posTocheck == posY;
-                });
-                if(this.CheckLine(posY) && (alreadyADeleted == null))
-                {
-                    //count one line numOfLines++
-                    numOfLines++;
-                    //save line pos
-                    linesToDelete.push(posY);
-                }
+                //Lineas completadas ++
+                numOfLines++;
+                //Reminder de que linea acabamos de completar
+                linesToDelete.push(posY);
             }
         }
     }
     
-    if(numOfLines >= 4)
+    if(numOfLines >= 4)//tetris
     {
-        //tetris
         //numoflines * scoreOfOneLine * tetris Multiplier
-        this.scoreSignal.dispatch(numOfLines*10*10);
+        this.scoreSignal.dispatch(numOfLines
+                                  *gameOptions.pointsForLine
+                                  *gameOptions.tetrisMultiplier);
         
     }
     else if(numOfLines > 0 ){
         //score += numOfLines*scoreOfOneLine
-        this.scoreSignal.dispatch(numOfLines*10);
+        this.scoreSignal.dispatch(numOfLines
+                                  *gameOptions.pointsForLine);
     }
     
-    for(var i = 0; i < linesToDelete.length; i++){
-        this.ClearLine(linesToDelete[i]);
+    if(numOfLines > 0) 
+    {
+        for(var i = 0; i < linesToDelete.length; i++)
+        {
+            this.ClearLine(linesToDelete[i]);
+        }
+        
+        //down the lanes
+        //buscar la linea limpiada que esta mas arriba
+        var min = Array.min(linesToDelete);
+        //a partir de ahi dividir todo el grid en un Clump grande
+        //bajar este clump detectanto colisiones
+        //una vez colocado
+        //volver a llamar a esta funcion
     }
+    
 };
 
-tetris.Grid.prototype.CheckLine = function(posY){
+Array.min = function( array ){
+    return Math.min.apply( Math, array );
+};
+
+tetris.Grid.prototype.CheckFullLine = function(posY){
 
     for (var posX = 0 ; posX < gameOptions.gridCellWidthCount; posX++)
     {
@@ -89,6 +107,17 @@ tetris.Grid.prototype.CheckLine = function(posY){
         }
     }
     return true;
+};
+tetris.Grid.prototype.CheckLineHasPiece = function(posY){
+
+    for (var posX = 0 ; posX < gameOptions.gridCellWidthCount; posX++)
+    {
+        if(this.gridMatrix[posY][posX].state == CellStates.PLACED)
+        {
+            return true;
+        }
+    }
+    return false;
 };
 
 tetris.Grid.prototype.ClearLine = function(posY){
