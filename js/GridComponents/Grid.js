@@ -30,6 +30,7 @@ tetris.Grid = function(pixStartX, pixStartY){
     this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
     this.pieceTimer.timer.pause();
     
+    this.pieceFactory = new tetris.pieceFactory();
     this.SpawnNewPiece();
 };
  
@@ -167,6 +168,6 @@ tetris.Grid.prototype.PlacePiece = function(piece){
         }
     }
 }
-tetris.Grid.prototype.SpawnNewPiece = function(){
-    this.AddPiece(new tetris.iPiece(),3,0);
+tetris.Grid.prototype.SpawnNewPiece = function(){  
+    this.AddPiece(this.pieceFactory.createPiece(),3,0);
 }
