@@ -1,13 +1,15 @@
 var tetris = tetris || {};
 
-var Score;
 var Name;
 var holdedPiece;
 
 tetris.Player = function(controller, pixStartX, pixStartY){
-    
+    this.score = 0;
     this.cursors = controller;
     this.myGrid = new tetris.Grid(pixStartX,pixStartY);
+    
+    this.myGrid.scoreSignal.add(this.AddScore, this);
+    
 };
 
 tetris.Player.prototype = Object.create(tetris.Player.prototype);
@@ -50,4 +52,9 @@ tetris.Player.prototype.PjUpdate = function(){
         {
             //this.myGrid.MovePiece(TypeOfMovement.ROTATE);
         }
+}
+
+tetris.Player.prototype.AddScore = function(toAdd){
+    this.score += toAdd;
+    console.log(this.score);
 }
