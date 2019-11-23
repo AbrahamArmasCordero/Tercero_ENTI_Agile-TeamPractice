@@ -43,9 +43,13 @@ tetris.inGame = {
         this.inputHandler = new tetris.inputManager(tetris.game);
         
         //Players
-        this.player1 = new tetris.Player(this.inputHandler.cursorsPlayer01,                                                                                     gameOptions.grid01PositionX, gameOptions.grid01PositionY);
+        this.player1 = new tetris.Player(this.inputHandler.cursorsPlayer01, 
+                                         gameOptions.grid01PositionX,
+                                         gameOptions.grid01PositionY);
         
-        this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, gameOptions.grid02PositionX,                                                         gameOptions.grid02PositionY);
+        this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, 
+                                         gameOptions.grid02PositionX,
+                                         gameOptions.grid02PositionY);
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
         this.endBg.kill();

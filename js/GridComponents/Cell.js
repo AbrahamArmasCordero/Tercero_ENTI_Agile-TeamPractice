@@ -25,7 +25,7 @@ const SpriteIMG = ['Opiece','LRpiece','LLpiece','Ipiece','Tpiece','ZRpiece','ZLp
 
 tetris.Cell = function(){
     this.state = CellStates.EMPTY;
-    this.spriteID = SpriteID.O;
+    this.spriteID = SpriteID.NULL;
     this.img = null;
 };
  
@@ -33,5 +33,6 @@ tetris.Cell.prototype = Object.create(tetris.Cell.prototype);
 tetris.Cell.prototype.constructor = tetris.Cell;
 
 tetris.Cell.prototype.DestroyImg = function(){
-    this.img.destroy();
+    if(this.img != null)
+        this.img.kill();
 }
