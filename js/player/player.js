@@ -50,7 +50,7 @@ tetris.Player.prototype.PjUpdate = function(){
         }
         if(this.cursors.rotate.isDown && this.cursors.rotate.downDuration(1))
         {
-            //this.myGrid.MovePiece(TypeOfMovement.ROTATE);
+            this.myGrid.MovePiece(TypeOfMovement.ROTATE);
         }
 }
 

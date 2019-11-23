@@ -50,11 +50,32 @@ tetris.piece.prototype.MovePiece = function(movementType, grid){
                 this.y += 1;
             }
             break;
+        case TypeOfMovement.ROTATE:
+            while(true){
+             if(this.Rotate(grid) == false)
+                 {
+                     break;
+                 }
+            }
+            break;
     }
 }
 
-tetris.piece.prototype.Rotate = function(){
-    //Will rotate the piece
+tetris.piece.prototype.Rotate = function(grid){
+    this.rotatedState = (this.rotatedState + 1) % this.pieceMatrix[this.rotatedState].length;
+    this.pieceMatrix[this.rotatedState];
+        for(var y = 0; y < this.pieceMatrix[this.rotatedState].length; y++){
+            for(var x = 0; x < this.pieceMatrix[this.rotatedState].length; x++){
+                if(this.pieceMatrix[this.rotatedState][y][x] == 1){
+                    if(this.OcuppiedBlock(grid, x, y)){
+                        this.rotatedState = (this.rotatedState -  1) % this.pieceMatrix[this.rotatedState].length;
+                        this.pieceMatrix[this.rotatedState];
+                        return true;
+                    }
+                }
+            }
+        }
+    return false;
 }
 
 tetris.piece.prototype.IsCollisionSide = function(grid, collisionSide){
