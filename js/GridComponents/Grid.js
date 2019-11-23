@@ -325,7 +325,9 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;
         case TypeOfMovement.ROTATE:
-            //Rotate the piece
+            this.RemoveCurrentPiece();
+            this.currentPiece.MovePiece(TypeOfMovement.ROTATE, this);
+            this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;
     }
 };
@@ -352,5 +354,5 @@ tetris.Grid.prototype.FallPiece = function(){
 }
 
 tetris.Grid.prototype.SpawnNewPiece = function(){
-    this.AddPiece(new tetris.oPiece(),3,0);
+    this.AddPiece(new tetris.iPiece(),3,0);
 }
