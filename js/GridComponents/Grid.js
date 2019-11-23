@@ -144,14 +144,17 @@ tetris.Grid.prototype.ScoreLines = function(){
                         {
                             //this block would be below the playing field
                             keepGoing = false;
-                            console.log("holaa");
                             this.AddClump(clump);
                             break;
                         }   
-                        //else if (landed[row + clump.potentialTopLeft.row] != 0 &&
-                        //         landed[col + clump.potentialTopLeft.col] != 0) {
-                            //the space is taken
-                        //}
+                        else if (this.gridMatrix[row + clump.topLeft.row][col+clump.topLeft.col].state == CellStates.PLACED) 
+                        {
+                            //collided with a tetromino
+                            clump.topLeft.row--;
+                            keepGoing = false;
+                            this.AddClump(clump);
+                            break;
+                        }
 
                     }
                 }
