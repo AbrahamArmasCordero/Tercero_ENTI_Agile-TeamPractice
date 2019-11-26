@@ -63,6 +63,7 @@ tetris.Grid.prototype.ScoreLines = function(){
         }
     }
     
+    //SCORE
     if(numOfLines >= 4)//tetris
     {
         //numoflines * scoreOfOneLine * tetris Multiplier
@@ -84,13 +85,11 @@ tetris.Grid.prototype.ScoreLines = function(){
             this.ClearLine(linesToDelete[i]);
         }
         
-        //down the lanes
         //buscar la linea limpiada que esta mas arriba
-        var min = Array.min(linesToDelete);
-        
-        //a partir de ahi dividir todo el grid en un Clump grande
+        var min = Array.min(linesToDelete);   
+        //Buscar lineas con piezas por encima de las que se acaban de limpiar     
         var clumpLines = [];
-        for(var i = min-1; i >= 0; i--)
+        for(var i = min-1; i >= 0; i--) //Empieza justo encima de la linea que se acaba de limpiar (min-1)
         {
             if(this.CheckLineHasPiece(i))
             {
@@ -100,95 +99,122 @@ tetris.Grid.prototype.ScoreLines = function(){
                 break;
             }
         }
-        var clump = {shape: [], 
-                     topLeft:
-                     {
-                         row:0,
-                         col:0
-                     }
-                    };
-        clump.shape = new Array(clumpLines.length);
-        clump.topLeft.row = clumpLines[clumpLines.length-1];
-        var i = 0;
-        for (var line = clump.shape.length-1; line >=0; line--)
+        
+        //si hay lineas que bajar
+        if(clumpLines.length > 0)
         {
-            clump.shape[line] = new Array(gameOptions.gridCellWidthCount);
             
-            for (var col = 0 ; col < clump.shape[line].length; col++)
-            {
-                //COPY (do not reference the grid so it is going to change in the next lines)
-                clump.shape[line][col] = new tetris.Cell();
-                
-                clump.shape[line][col].state = this.gridMatrix[clumpLines[i]][col].state;
-                clump.shape[line][col].spriteID = this.gridMatrix[clumpLines[i]][col].spriteID;
+            var clump = this.CreateClump(clumpLines);
 
-                this.gridMatrix[clumpLines[i]][col].state = CellStates.EMPTY;
-                this.gridMatrix[clumpLines[i]][col].spriteID = SpriteID.NULL;
-                this.gridMatrix[clumpLines[i]][col].DestroyImg();
-                
-            }
-            i++;
-        }
-        
-        //bajar este clump detectanto colisiones
-        var keepGoing = true;
-        while (keepGoing){
-            
-            for (var row = 0; row < clump.shape.length; row++) {
-                for (var col = 0; col < clump.shape[row].length; col++) 
-                {
-                    if (clump.shape[row][col].state == 1)
-                    {
-                        if (row + clump.topLeft.row >= gameOptions.gridCellHeightCount-1) 
-                        {
-                            //this block would be below the playing field
-                            keepGoing = false;
-                            this.AddClump(clump);
-                            break;
-                        }   
-                        else if (this.gridMatrix[row + clump.topLeft.row][col+clump.topLeft.col].state == CellStates.PLACED) 
-                        {
-                            //collided with a tetromino
-                            clump.topLeft.row--;
-                            keepGoing = false;
-                            this.AddClump(clump);
-                            break;
-                        }
+            //bajar este clump detectanto colisiones
+            this.PlaceClump(clump);
 
-                    }
-                }
-            }
-            clump.topLeft.row++;
+            //una vez colocado
+            //volver a llamar a esta funcion
         }
-        
-        //una vez colocado
-        //volver a llamar a esta funcion
     }
     
 };
-
-Array.min = function( array ){
-    return Math.min.apply( Math, array );
+tetris.Grid.prototype.ClearLine = function(posY){
+    
+    for (var posX = 0 ; posX < gameOptions.gridCellWidthCount; posX++)
+    {
+        this.gridMatrix[posY][posX].spriteID = SpriteID.NULL;
+        this.gridMatrix[posY][posX].state = CellStates.EMPTY;
+        this.gridMatrix[posY][posX].DestroyImg();
+        
+    }
 };
 
+//CLUMP MANAGMENT
+tetris.Grid.prototype.CreateClump = function(clumpLines){
+    //creamos un clump el cual vamos a bajar
+    var clump = {shape: [], topLeft:
+                            {row:0,col:0}
+                };
+
+    clump.shape = new Array(clumpLines.length);
+    //el clump.shape va de arriba a abajo en el grid, pero el clumpLines 0-X va de abajo arriba en el grid, es decir clumpLines[0]=19 y [1]= 18 y queremos que la primera row del clump sea la 18 y el shape tiene el mismo numero de rows que clumpLines
+    clump.topLeft.row = clumpLines[clumpLines.length-1];
+
+    //vamos a llenar el clump.shape de abajo a arriba
+    //clump.shape[end] corresponde a clumpLines[0]
+    //entonces con la i recorremos de adelante hacia atras el clumpLines
+    //y con line recorremos el clump.shape de atras a adelante
+    for (var line = clump.shape.length-1, i = 0; line >=0; line--, i++) //empezamos por la row de abajo
+    {
+        clump.shape[line] = new Array(gameOptions.gridCellWidthCount);
+
+        for (var col = 0 ; col < clump.shape[line].length; col++)
+        {
+            //COPY (do not reference the grid so it is going to change in the next lines)
+            clump.shape[line][col] = new tetris.Cell();
+
+            clump.shape[line][col].state = this.gridMatrix[clumpLines[i]][col].state;
+            clump.shape[line][col].spriteID = this.gridMatrix[clumpLines[i]][col].spriteID;
+
+
+            this.gridMatrix[clumpLines[i]][col].state = CellStates.EMPTY;
+            this.gridMatrix[clumpLines[i]][col].spriteID = SpriteID.NULL;
+            this.gridMatrix[clumpLines[i]][col].DestroyImg();
+
+        }
+    }
+    
+    return clump;
+}
+tetris.Grid.prototype.PlaceClump = function(clump){
+    var keepGoing = true;
+    while (keepGoing){
+
+        for (var row = 0; row < clump.shape.length; row++) {
+            for (var col = 0; col < clump.shape[row].length; col++) 
+            {
+                if (clump.shape[row][col].state == 1)
+                {
+                    if (row + clump.topLeft.row >= gameOptions.gridCellHeightCount-1) 
+                    {
+                        //this block would be below the playing field
+                        keepGoing = false;
+                        this.AddClump(clump);
+                        break;
+                    }   
+                    else if (this.gridMatrix[row + clump.topLeft.row][col+clump.topLeft.col].state == CellStates.PLACED) 
+                    {
+                        //collided with a tetromino
+                        clump.topLeft.row--;
+                        keepGoing = false;
+                        this.AddClump(clump);
+                        break;
+                    }
+
+                }
+            }
+        }
+        clump.topLeft.row++;
+    }
+}
 tetris.Grid.prototype.AddClump = function (clump){
-    for (var row1 = 0; row1 < clump.shape.length; row1++) {
-        for (var col1 = 0; col1 < clump.shape[row1].length; col1++) 
+    
+    for (var row = 0; row < clump.shape.length; row++) {
+        for (var col1 = 0; col < clump.shape[row].length; col++) 
         {
             //do not reference the clump.shape[row1][col1]
-            this.gridMatrix[row1 + clump.topLeft.row][col1] = new tetris.Cell();
+            this.gridMatrix[row + clump.topLeft.row][col] = new tetris.Cell();
             
             //state
-            this.gridMatrix[row1 + clump.topLeft.row][col1].state = 
-                clump.shape[row1][col1].state;
+            this.gridMatrix[row + clump.topLeft.row][col].state = 
+                clump.shape[row][col].state;
             //spriteId
-            this.gridMatrix[row1 + clump.topLeft.row][col1].spriteID = 
-                clump.shape[row1][col1].spriteID;
+            this.gridMatrix[row + clump.topLeft.row][col].spriteID = 
+                clump.shape[row][col].spriteID;
             //image
-            var pixX = gameOptions.cellWidth * col1;
-            var pixY = gameOptions.cellHeight * (row1 + clump.topLeft.row);
-
-            this.gridMatrix[row1 + clump.topLeft.row][col1].img =
+            var pixX = gameOptions.cellWidth * col;
+            var pixY = gameOptions.cellHeight * (row + clump.topLeft.row);
+            //instead of this call a function that interpolates the sprite
+            //from a pixYStart to pixY (end pos)
+            //y cuando termina que la añada al grid
+            this.gridMatrix[row + clump.topLeft.row][col].img =
             tetris.game.add.image(this.startCellX + pixX,this.startCellY + pixY, SpriteIMG[clump.shape[row1][col1].spriteID]);
         }
     }
@@ -218,18 +244,7 @@ tetris.Grid.prototype.CheckLineHasPiece = function(posY){
     return false;
 };
 
-tetris.Grid.prototype.ClearLine = function(posY){
-    
-    for (var posX = 0 ; posX < gameOptions.gridCellWidthCount; posX++)
-    {
-        this.gridMatrix[posY][posX].spriteID = SpriteID.NULL;
-        this.gridMatrix[posY][posX].state = CellStates.EMPTY;
-        this.gridMatrix[posY][posX].img.kill();
-        
-    }
-};
-
-//PIECE LOGIC
+//CURRENT PIECE LOGIC
 tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
     this.currentPiece = piece;
     this.currentPiece.x = cellX;
@@ -255,7 +270,6 @@ tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
         }
     }
 };
-
 tetris.Grid.prototype.PlacePiece = function(piece){
     var placedPiece = piece;
     for(var x = 0; x < placedPiece.pieceMatrix[placedPiece.rotatedState].length; x++)
@@ -279,8 +293,6 @@ tetris.Grid.prototype.PlacePiece = function(piece){
     }
     
 }
-
-//Clean the current piece of the grid
 tetris.Grid.prototype.RemoveCurrentPiece = function(){
     
     for(var x = 0; x < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; x++)
@@ -299,7 +311,6 @@ tetris.Grid.prototype.RemoveCurrentPiece = function(){
         }
     }
 };
-
 
 //STATE CHANGERS
 tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
