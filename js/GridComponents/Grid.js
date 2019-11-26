@@ -25,14 +25,15 @@ tetris.Grid = function(pixStartX, pixStartY){
             this.gridMatrix[x][y] = new tetris.Cell();
         }
     }
+    this.scoreSignal = new Phaser.Signal();
+    this.pieceFactory = new tetris.pieceFactory();
+    this.SpawnNewPiece();
     
     //Fall loop pieces
     this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
     this.pieceTimer.timer.pause();
     
-    this.scoreSignal = new Phaser.Signal();
-    this.pieceFactory = new tetris.pieceFactory();
-    this.SpawnNewPiece();
+
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -78,6 +79,7 @@ tetris.Grid.prototype.ScoreLines = function(){
                                   *gameOptions.pointsForLine);
     }
     
+    //LINE DISPLACEMENT
     if(numOfLines > 0) 
     {
         for(var i = 0; i < linesToDelete.length; i++)
@@ -130,12 +132,14 @@ tetris.Grid.prototype.ClearLine = function(posY){
 tetris.Grid.prototype.CreateClump = function(clumpLines){
     //creamos un clump el cual vamos a bajar
     var clump = {shape: [], topLeft:
-                            {row:0,col:0}
+                            {row:0,col:0},
+                 startRow:0
                 };
 
     clump.shape = new Array(clumpLines.length);
     //el clump.shape va de arriba a abajo en el grid, pero el clumpLines 0-X va de abajo arriba en el grid, es decir clumpLines[0]=19 y [1]= 18 y queremos que la primera row del clump sea la 18 y el shape tiene el mismo numero de rows que clumpLines
     clump.topLeft.row = clumpLines[clumpLines.length-1];
+    clump.startRow = clumpLines[clumpLines.length-1];
 
     //vamos a llenar el clump.shape de abajo a arriba
     //clump.shape[end] corresponde a clumpLines[0]
@@ -197,7 +201,7 @@ tetris.Grid.prototype.PlaceClump = function(clump){
 tetris.Grid.prototype.AddClump = function (clump){
     
     for (var row = 0; row < clump.shape.length; row++) {
-        for (var col1 = 0; col < clump.shape[row].length; col++) 
+        for (var col = 0; col < clump.shape[row].length; col++) 
         {
             //do not reference the clump.shape[row1][col1]
             this.gridMatrix[row + clump.topLeft.row][col] = new tetris.Cell();
@@ -210,12 +214,17 @@ tetris.Grid.prototype.AddClump = function (clump){
                 clump.shape[row][col].spriteID;
             //image
             var pixX = gameOptions.cellWidth * col;
-            var pixY = gameOptions.cellHeight * (row + clump.topLeft.row);
+            var pixEndY = gameOptions.cellHeight * (row + clump.topLeft.row);
+            var pixStartY = gameOptions.cellHeight * (row + clump.startRow)
+            
             //instead of this call a function that interpolates the sprite
             //from a pixYStart to pixY (end pos)
             //y cuando termina que la añada al grid
+                        
             this.gridMatrix[row + clump.topLeft.row][col].img =
-            tetris.game.add.image(this.startCellX + pixX,this.startCellY + pixY, SpriteIMG[clump.shape[row1][col1].spriteID]);
+            tetris.game.add.image(this.startCellX + pixX,this.startCellY + pixStartY, SpriteIMG[clump.shape[row][col].spriteID]);
+            
+            this.gridMatrix[row + clump.topLeft.row][col].Fallimg(this.startCellY+pixEndY);
         }
     }
     
@@ -356,7 +365,6 @@ tetris.Grid.prototype.FallPiece = function(){
         }else{
             this.RemoveCurrentPiece();
             this.PlacePiece(this.currentPiece);
-            
             //aqui miro lineas y tetris
             this.ScoreLines();
             this.SpawnNewPiece();
@@ -365,5 +373,5 @@ tetris.Grid.prototype.FallPiece = function(){
 }
 
 tetris.Grid.prototype.SpawnNewPiece = function(){
-    this.AddPiece(new tetris.iPiece(),3,0);
+    this.AddPiece(this.pieceFactory.createPiece(),3,0);
 }

@@ -32,7 +32,12 @@ tetris.Cell = function(){
 tetris.Cell.prototype = Object.create(tetris.Cell.prototype);
 tetris.Cell.prototype.constructor = tetris.Cell;
 
+tetris.Cell.prototype.Fallimg = function(endPos){
+    
+    this.fallTween = tetris.game.add.tween(this.img).to({y:endPos}, 500, 'Linear', true);
+    
+}
 tetris.Cell.prototype.DestroyImg = function(){
     if(this.img != null)
-        this.img.kill();
+        this.img.destroy();
 }

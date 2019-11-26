@@ -14,7 +14,7 @@ tetris.pieceFactory.prototype.createPiece = function(){
     //While not repeated 2 times on historical
     var indPiece = 0;
     do{
-        indPiece = 1;//tetris.game.rnd.integerInRange(0, 6);
+        indPiece = tetris.game.rnd.integerInRange(0, 6);
     }while(this.is2TimesRepeated(indPiece))
         
     this.historicalPiece.shift();

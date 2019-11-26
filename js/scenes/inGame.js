@@ -75,6 +75,7 @@ tetris.inGame = {
         this.resetTitle.kill();
     },
     update:function(){
+        
         switch(this.playingState){
             case PlayingStates.COUNTDOWN:
                 this.playingState = PlayingStates.PLAY;
