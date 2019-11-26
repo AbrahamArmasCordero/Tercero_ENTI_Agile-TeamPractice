@@ -7,7 +7,8 @@ tetris.mainMenu = {
         var ruta = 'assets/img/';
         this.game.load.spritesheet('bt1', ruta+'button.png', 268, 101);
         this.game.stage.backgroundColor = '#182d3b';
-        
+
+        this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
 
 
     },
@@ -16,10 +17,8 @@ tetris.mainMenu = {
         
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
-        
-        this.add.text( this.world.centerX - 150, 100, "BATTLE TETRIS", {font: "42px Arial",
-                                                fill: "#fff",
-                                                align: "center"});
+        this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 100, 'tittleFont', 'BATTLE TETRIS', 110);
+        this.title.tint = 0xFFFFFF;
         
         var bt1 = this.createButton(this, "Exit", this.world.centerX, this.world.centerY +80, 150, 40, function(){  this.game.destroy(); }); // Change Console.Log por la accion de cerrar.
 
