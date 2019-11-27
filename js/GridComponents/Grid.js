@@ -176,9 +176,10 @@ tetris.Grid.prototype.PlaceClump = function(clump){
             {
                 if (clump.shape[row][col].state == 1)
                 {
-                    if (row + clump.topLeft.row >= gameOptions.gridCellHeightCount-1) 
+                    if (row + clump.topLeft.row >= gameOptions.gridCellHeightCount) 
                     {
                         //this block would be below the playing field
+                        clump.topLeft.row--;
                         keepGoing = false;
                         this.AddClump(clump);
                         break;
