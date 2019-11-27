@@ -89,30 +89,29 @@ tetris.Grid.prototype.ScoreLines = function(){
         
         //buscar la linea limpiada que esta mas arriba
         var min = Array.min(linesToDelete);   
-        //Buscar lineas con piezas por encima de las que se acaban de limpiar     
-        var clumpLines = [];
-        for(var i = min-1; i >= 0; i--) //Empieza justo encima de la linea que se acaba de limpiar (min-1)
-        {
-            if(this.CheckLineHasPiece(i))
-            {
-                clumpLines.push(i);
+        if(this.ClumpFromThis(min))
+        {        
+            var max = Array.max(linesToDelete);
+            //check for the bottom line emptyNess
+            if(!this.CheckLineHasPiece(max)){  
+                //if it completly empty clump now from that line
+                this.ClumpFromThis(max);
             }
-            else{
-                break;
-            }
-        }
-        
-        //si hay lineas que bajar
-        if(clumpLines.length > 0)
-        {
             
-            var clump = this.CreateClump(clumpLines);
-
-            //bajar este clump detectanto colisiones
-            this.PlaceClump(clump);
-
             //una vez colocado
             //volver a llamar a esta funcion
+            this.ScoreLines();
+            
+        }
+        else{ 
+            
+            var max = Array.max(linesToDelete);
+            //check for the bottom line emptyNess
+            if(!this.CheckLineHasPiece(max)){  
+                //if it completly empty clump now from that line
+                this.ClumpFromThis(max);
+            }
+            
         }
     }
     
@@ -129,6 +128,32 @@ tetris.Grid.prototype.ClearLine = function(posY){
 };
 
 //CLUMP MANAGMENT
+tetris.Grid.prototype.ClumpFromThis = function(posY){
+    //Buscar lineas con piezas por encima de las que se acaban de limpiar     
+
+    var clumpLines = [];
+    for(var i = posY-1; i >= 0; i--) //Empieza justo encima de la linea que se acaba de limpiar (min-1)
+    {
+        if(this.CheckLineHasPiece(i))
+        {
+            clumpLines.push(i);
+        }
+        else{
+            break;
+        }
+    }
+
+    //si hay lineas que bajar
+    if(clumpLines.length > 0)
+    {
+        var clump = this.CreateClump(clumpLines);
+        //bajar este clump detectanto colisiones
+        this.PlaceClump(clump);
+
+        return true;
+        //repeat procees until no emptylines are found
+    }
+}
 tetris.Grid.prototype.CreateClump = function(clumpLines){
     //creamos un clump el cual vamos a bajar
     var clump = {shape: [], topLeft:
@@ -253,7 +278,6 @@ tetris.Grid.prototype.CheckLineHasPiece = function(posY){
     }
     return false;
 };
-
 //CURRENT PIECE LOGIC
 tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
     this.currentPiece = piece;
