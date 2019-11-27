@@ -51,31 +51,52 @@ tetris.piece.prototype.MovePiece = function(movementType, grid){
             }
             break;
         case TypeOfMovement.ROTATE:
-            while(true){
-             if(this.Rotate(grid) == false)
-                 {
-                     break;
-                 }
-            }
+           // if()
+                this.Rotate(grid);
             break;
     }
 }
 
 tetris.piece.prototype.Rotate = function(grid){
-    this.rotatedState = (this.rotatedState + 1) % this.pieceMatrix[this.rotatedState].length;
-    this.pieceMatrix[this.rotatedState];
+    if(this.pieceSprite!=0){
+        this.rotatedState++;
+        var rot = true;
+        if(this.rotatedState > 3){
+            this.rotatedState = 0;
+        }
         for(var y = 0; y < this.pieceMatrix[this.rotatedState].length; y++){
             for(var x = 0; x < this.pieceMatrix[this.rotatedState].length; x++){
+                if(grid.gridMatrix[(this.y + y)][(this.x + x)] == null){
+                        rot = false;
+                    break;
+                }
                 if(this.pieceMatrix[this.rotatedState][y][x] == 1){
                     if(this.OcuppiedBlock(grid, x, y)){
-                        this.rotatedState = (this.rotatedState -  1) % this.pieceMatrix[this.rotatedState].length;
-                        this.pieceMatrix[this.rotatedState];
-                        return true;
+                            rot = false;
+                        break;
+                    }
+                    if((this.y + y) > gameOptions.gridCellHeightCount-1){
+                            rot = false;
+                        break;
+                    }
+                    if((this.x + x) < 0 ){
+                            rot = false;
+                        break;
+                    }
+                    if((this.x + x) > gameOptions.gridCellWidthCount-1){
+                            rot = false;
+                        break;
                     }
                 }
             }
         }
-    return false;
+        if(!rot){
+            this.rotatedState--;
+            if(this.rotatedState < 0){
+                this.rotatedState = 3;
+            }
+        }
+    }
 }
 
 tetris.piece.prototype.IsCollisionSide = function(grid, collisionSide){
