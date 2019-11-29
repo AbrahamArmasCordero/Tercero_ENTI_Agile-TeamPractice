@@ -13,15 +13,19 @@ tetris.Grid = function(pixStartX, pixStartY){
     this.startCellX = pixStartX;
     this.startCellY = pixStartY;
     
+    //GRID BG
     this.pj1GridBG = tetris.game.add.image(pixStartX,pixStartY, 'grid_bg');
     
-    var nextFrameXPos = pixStartX + gameOptions.cellWidth*gameOptions.gridCellWidthCount;
-    this.nextFrame = tetris.game.add.image(nextFrameXPos,80, 'pieceFrame');
-    this.nextText = tetris.game.add.bitmapText(nextFrameXPos+26, 70, 'myfont',"Next", 64);
-      
-    var holdFrameXPos = pixStartX - gameOptions.pieceFramePixSize
-    this.holdFrame = tetris.game.add.image(holdFrameXPos,80, 'pieceFrame');
-    this.holdText = tetris.game.add.bitmapText(holdFrameXPos+26, 70, 'myfont',"Hold", 64);
+    //NEXT SPRITE
+    this.nextFrameXPos = pixStartX + gameOptions.cellWidth*gameOptions.gridCellWidthCount;
+    this.nextFrame = tetris.game.add.image(this.nextFrameXPos,80, 'pieceFrame');
+    this.nextText = tetris.game.add.bitmapText(this.nextFrameXPos+gameOptions.pieceFramePixSize/2, pixStartY, 'titleFont',"Next", 64);
+    this.nextText.anchor.setTo(.5);
+    //HOLD SPRITE
+    this.holdFrameXPos = pixStartX - gameOptions.pieceFramePixSize
+    this.holdFrame = tetris.game.add.image(this.holdFrameXPos,80, 'pieceFrame');
+    this.holdText = tetris.game.add.bitmapText(this.holdFrameXPos+gameOptions.pieceFramePixSize/2, pixStartY, 'titleFont',"Hold", 64);
+    this.holdText.anchor.setTo(.5);
     
     //Create the matrix grid
     this.gridMatrix = new Array(gameOptions.gridCellHeightCount);
@@ -37,7 +41,8 @@ tetris.Grid = function(pixStartX, pixStartY){
     }
     this.scoreSignal = new Phaser.Signal();
     this.pieceFactory = new tetris.pieceFactory();
-    this.SpawnNewPiece();
+    
+    this.SpawnNewPiece()
     
     //Fall loop pieces
     this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
@@ -406,7 +411,18 @@ tetris.Grid.prototype.FallPiece = function(){
 }
 
 tetris.Grid.prototype.SpawnNewPiece = function(){
-    var newPiece = this.pieceFactory.createPiece()
+    var newPiece = this.pieceFactory.createPiece();
     this.AddPiece(newPiece,3,0);
-    //load nextPiece into img
+    this.UpdateNextPiece(SpriteID.I);
+    
+}
+
+tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
+        
+    var imgXPos = this.nextFrameXPos+gameOptions.pieceFramePixSize/2;
+    var imgYPos = this.startCellY+gameOptions.pieceFramePixSize/2;
+    
+    this.nextPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
+    this.nextPieceIMG.anchor.setTo(0.5);
+    this.nextPieceIMG.scale.setTo(0.6);
 }

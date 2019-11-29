@@ -26,10 +26,20 @@ tetris.inGame = {
         this.load.image(SpriteIMG[SpriteID.O], ruta+ 'tetriminos/OPiece32x32.png');
         this.load.image(SpriteIMG[SpriteID.T], ruta + 'tetriminos/TPiece32x32.png');
         this.load.image(SpriteIMG[SpriteID.Z.Left], ruta + 'tetriminos/ZLeftPiece32x32.png');
-        this.load.image(SpriteIMG[SpriteID.Z.Right], ruta + 'tetriminos/ZRightPiece32x32.png');
+        this.load.image(SpriteIMG[SpriteID.Z.Right], ruta + 'tetriminos/ZRightPiece32x32.png');   
+        
+        
         //pieceFrame Components
-        this.load.image('pieceFrame', ruta+'frame128x128.png');
-        this.game.load.bitmapFont('myfont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
+        this.load.image('pieceFrame', ruta+'frameLayout/frame128x128.png');
+        this.game.load.bitmapFont('titleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt'); 
+        
+        this.load.image(SpriteFullIMG[SpriteID.I], ruta + 'frameLayout/iPiece.png');
+        this.load.image(SpriteFullIMG[SpriteID.L.Left], ruta + 'frameLayout/lLPiece.png');
+        this.load.image(SpriteFullIMG[SpriteID.L.Right], ruta + 'frameLayout/lRPiece.png');
+        this.load.image(SpriteFullIMG[SpriteID.O], ruta + 'frameLayout/oPiece.png');
+        this.load.image(SpriteFullIMG[SpriteID.T], ruta + 'frameLayout/tPiece.png');
+        this.load.image(SpriteFullIMG[SpriteID.Z.Left], ruta + 'frameLayout/zLPiece.png');
+        this.load.image(SpriteFullIMG[SpriteID.Z.Right], ruta + 'frameLayout/zRPiece.png');
         //Load Pause state
         
         //Load End state
