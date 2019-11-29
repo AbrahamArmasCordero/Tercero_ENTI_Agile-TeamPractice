@@ -17,6 +17,9 @@ tetris.inGame = {
     },
     preload:function(){
         var ruta = 'assets/img/';
+        //font
+        this.game.load.bitmapFont('titleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt'); 
+        
         //Load Play state
         this.load.image('grid_bg', ruta+'grid_sprite320x640.png');
         
@@ -31,7 +34,6 @@ tetris.inGame = {
         
         //pieceFrame Components
         this.load.image('pieceFrame', ruta+'frameLayout/frame128x128.png');
-        this.game.load.bitmapFont('titleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt'); 
         
         this.load.image(SpriteFullIMG[SpriteID.I], ruta + 'frameLayout/iPiece.png');
         this.load.image(SpriteFullIMG[SpriteID.L.Left], ruta + 'frameLayout/lLPiece.png');
@@ -39,7 +41,7 @@ tetris.inGame = {
         this.load.image(SpriteFullIMG[SpriteID.O], ruta + 'frameLayout/oPiece.png');
         this.load.image(SpriteFullIMG[SpriteID.T], ruta + 'frameLayout/tPiece.png');
         this.load.image(SpriteFullIMG[SpriteID.Z.Left], ruta + 'frameLayout/zLPiece.png');
-        this.load.image(SpriteFullIMG[SpriteID.Z.Right], ruta + 'frameLayout/zRPiece.png');
+        this.load.image(SpriteFullIMG[SpriteID.Z.Right], ruta + 'frameLayout/zRPiece.png');   
         //Load Pause state
         
         //Load End state

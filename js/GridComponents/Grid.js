@@ -426,3 +426,14 @@ tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
     this.nextPieceIMG.anchor.setTo(0.5);
     this.nextPieceIMG.scale.setTo(0.6);
 }
+
+tetris.Grid.prototype.UpdateHoldPiece = function(pieceID){
+        
+    var imgXPos = this.holdFrameXPos+gameOptions.pieceFramePixSize/2;
+    var imgYPos = this.startCellY+gameOptions.pieceFramePixSize/2;
+    
+    this.holdedPieceID = pieceID;
+    this.holdPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
+    this.holdPieceIMG.anchor.setTo(0.5);
+    this.holdPieceIMG.scale.setTo(0.6);
+}

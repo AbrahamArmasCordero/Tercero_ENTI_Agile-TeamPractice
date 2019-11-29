@@ -8,6 +8,11 @@ tetris.Player = function(controller, pixStartX, pixStartY){
     this.cursors = controller;
     this.myGrid = new tetris.Grid(pixStartX,pixStartY);
     
+    var scorePos = pixStartX+gameOptions.gridCellWidthCount*gameOptions.cellWidth*0.5;
+    
+    this.scoreText = tetris.game.add.bitmapText(scorePos, 50, 'titleFont',"Score: "+this.score.toString(), 64);
+    this.scoreText.anchor.setTo(.5);
+    
     this.myGrid.scoreSignal.add(this.AddScore, this);
     
 };
@@ -56,5 +61,6 @@ tetris.Player.prototype.PjUpdate = function(){
 
 tetris.Player.prototype.AddScore = function(toAdd){
     this.score += toAdd;
+    this.scoreText.text = "Score: "+this.score.toString();
     console.log(this.score);
 }
