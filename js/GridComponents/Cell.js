@@ -22,6 +22,7 @@ const SpriteID ={
 }
 
 const SpriteIMG = ['Opiece','LRpiece','LLpiece','Ipiece','Tpiece','ZRpiece','ZLpiece']
+const SpriteFullIMG = ['fullOpiece','fullLRpiece','fullLLpiece','fullIpiece','fullTpiece','fullZRpiece','fullZLpiece']
 
 tetris.Cell = function(){
     this.state = CellStates.EMPTY;
