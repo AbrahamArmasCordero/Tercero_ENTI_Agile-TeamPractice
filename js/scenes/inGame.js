@@ -27,6 +27,9 @@ tetris.inGame = {
         this.load.image(SpriteIMG[SpriteID.T], ruta + 'tetriminos/TPiece32x32.png');
         this.load.image(SpriteIMG[SpriteID.Z.Left], ruta + 'tetriminos/ZLeftPiece32x32.png');
         this.load.image(SpriteIMG[SpriteID.Z.Right], ruta + 'tetriminos/ZRightPiece32x32.png');
+        //pieceFrame Components
+        this.load.image('pieceFrame', ruta+'frame128x128.png');
+        this.game.load.bitmapFont('myfont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
         //Load Pause state
         
         //Load End state
@@ -35,10 +38,7 @@ tetris.inGame = {
     create:function(){
         
         estate = 1;
-        //Bg grids
-        this.pj1GridBG = this.game.add.image(182,80, 'grid_bg');
-        this.pj2GridBG = this.game.add.image(864,80, 'grid_bg');
-        
+              
         //Inputs
         this.inputHandler = new tetris.inputManager(tetris.game);
         
@@ -50,6 +50,7 @@ tetris.inGame = {
         this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, 
                                          gameOptions.grid02PositionX,
                                          gameOptions.grid02PositionY);
+               
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
         this.endBg.kill();
