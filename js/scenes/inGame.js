@@ -1,5 +1,4 @@
 var tetris = tetris || {};
-
 const PlayingStates = {
     COUNTDOWN: 0,
     PLAY: 1,
@@ -62,6 +61,12 @@ tetris.inGame = {
         this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, 
                                          gameOptions.grid02PositionX,
                                          gameOptions.grid02PositionY);
+        
+        this.timerText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "time", 64);
+        this.timerText.anchor.setTo(0.5);
+        
+        this.currentTime = 180;
+        this.timerEvent = this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
                
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
@@ -153,5 +158,17 @@ tetris.inGame = {
                                                    fill: "#000",
                                                    align: "center"});
         txt.anchor.setTo(0.5,0.5);
-    }
+    },
+    updateTimer:function(){
+        this.currentTime--;
+        var minutes = Math.floor((this.currentTime/60));
+        var seconds = this.currentTime - minutes*60;
+           
+        this.timerText.text = String.format("{0}:{1:00}", minutes, seconds);
+        
+        if(minutes <= 0 && seconds <= 0){
+            //TODO: delete this and add endgame function
+            this.timerEvent.timer.remove(this.timerEvent);
+        }
+    },
 };
