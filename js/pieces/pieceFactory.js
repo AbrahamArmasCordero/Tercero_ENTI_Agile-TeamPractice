@@ -17,7 +17,7 @@ tetris.pieceFactory.prototype.createPiece = function(){
     this.createdPiece = this.nextPiece;
     do{
         this.nextPiece = tetris.game.rnd.integerInRange(0, 6);
-    }while(this.is2TimesRepeated(this.createdPiece))
+    }while(this.is2TimesRepeated(this.nextPiece))
 
     this.historicalPiece.shift();
     this.historicalPiece.push(this.createdPiece);
