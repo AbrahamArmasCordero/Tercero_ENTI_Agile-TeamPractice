@@ -413,15 +413,15 @@ tetris.Grid.prototype.FallPiece = function(){
 tetris.Grid.prototype.SpawnNewPiece = function(){
     var newPiece = this.pieceFactory.createPiece();
     this.AddPiece(newPiece,3,0);
-    this.UpdateNextPiece(SpriteID.I);
-    
+    this.UpdateNextPiece(this.pieceFactory.nextPiece);  
 }
 
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
         
-    var imgXPos = this.nextFrameXPos+gameOptions.pieceFramePixSize/2;
-    var imgYPos = this.startCellY+gameOptions.pieceFramePixSize/2;
-    
+    var imgXPos = this.nextFrameXPos + gameOptions.pieceFramePixSize / 2;
+    var imgYPos = this.startCellY + gameOptions.pieceFramePixSize / 2;
+    if(this.nextPieceIMG != null)
+        this.nextPieceIMG.destroy();
     this.nextPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
     this.nextPieceIMG.anchor.setTo(0.5);
     this.nextPieceIMG.scale.setTo(0.6);
@@ -432,6 +432,7 @@ tetris.Grid.prototype.UpdateHoldPiece = function(pieceID){
     var imgXPos = this.holdFrameXPos+gameOptions.pieceFramePixSize/2;
     var imgYPos = this.startCellY+gameOptions.pieceFramePixSize/2;
     
+    this.holdPieceIMG.destroy();
     this.holdedPieceID = pieceID;
     this.holdPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
     this.holdPieceIMG.anchor.setTo(0.5);

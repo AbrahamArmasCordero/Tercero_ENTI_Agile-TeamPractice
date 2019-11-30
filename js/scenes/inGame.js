@@ -68,7 +68,6 @@ tetris.inGame = {
         this.currentTime = 180;
         this.timerEvent = this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
         
-        this.myEvent = new tetris.myTimer();
                
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
