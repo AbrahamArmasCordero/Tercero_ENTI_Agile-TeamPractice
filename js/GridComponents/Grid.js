@@ -42,11 +42,7 @@ tetris.Grid = function(pixStartX, pixStartY){
     this.scoreSignal = new Phaser.Signal();
     this.pieceFactory = new tetris.pieceFactory();
     
-    this.SpawnNewPiece()
-    
-    //Fall loop pieces
-    this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
-    this.pieceTimer.timer.pause();
+    this.SpawnNewPiece();
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -437,4 +433,11 @@ tetris.Grid.prototype.UpdateHoldPiece = function(pieceID){
     this.holdPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
     this.holdPieceIMG.anchor.setTo(0.5);
     this.holdPieceIMG.scale.setTo(0.6);
+}
+
+tetris.Grid.prototype.PauseTimer = function(){
+    tetris.game.time.events.remove(this.pieceTimer)
+}
+tetris.Grid.prototype.ResumeTimer = function(){
+    this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
 }
