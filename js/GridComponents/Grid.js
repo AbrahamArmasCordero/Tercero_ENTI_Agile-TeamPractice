@@ -414,7 +414,6 @@ tetris.Grid.prototype.SpawnNewPiece = function(){
     var newPiece = this.pieceFactory.createPiece();
     this.AddPiece(newPiece,3,0);
     this.UpdateNextPiece(SpriteID.I);
-    
 }
 
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){

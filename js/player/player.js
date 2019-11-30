@@ -25,7 +25,7 @@ tetris.Player.prototype.Update = function(){
 };
 
 tetris.Player.prototype.CheckLose = function(){
-    return this.myGrid.CheckLineHasPiece(1); 
+    return this.myGrid.CheckLineHasPiece(0);
 };
 
 tetris.Player.prototype.PjUpdate = function(){
@@ -42,7 +42,7 @@ tetris.Player.prototype.PjUpdate = function(){
         }
         //DOWN Independent
         if(this.cursors.down.isDown && this.cursors.down.downDuration(1))
-        {
+        {   
             this.myGrid.MovePiece(TypeOfMovement.FASTER);
         }
         if(this.cursors.up.isDown && this.cursors.up.downDuration(1))

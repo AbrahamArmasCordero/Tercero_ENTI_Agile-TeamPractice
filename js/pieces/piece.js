@@ -57,6 +57,10 @@ tetris.piece.prototype.MovePiece = function(movementType, grid){
     }
 }
 
+tetris.piece.prototype.ChechkLose = function(grid){
+    
+}
+
 tetris.piece.prototype.Rotate = function(grid){
     if(this.pieceSprite!=0){
         this.rotatedState++;
