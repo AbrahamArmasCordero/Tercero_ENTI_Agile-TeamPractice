@@ -3,8 +3,7 @@ const PlayingStates = {
     COUNTDOWN: 0,
     PLAY: 1,
     PAUSE: 2,
-    WIN: 3,
-    END: 4
+    END: 3
 }
 
 tetris.inGame = {
@@ -47,8 +46,6 @@ tetris.inGame = {
          this.load.image('end_bg', ruta + 'backgrounds/endBackground.png');
     },
     create:function(){
-        
-        estate = 1;
               
         //Inputs
         this.inputHandler = new tetris.inputManager(tetris.game);
@@ -62,13 +59,11 @@ tetris.inGame = {
                                          gameOptions.grid02PositionX,
                                          gameOptions.grid02PositionY);
         
-        this.timerText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "time", 64);
+        this.timerText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "", 64);
         this.timerText.anchor.setTo(0.5);
         
         this.currentTime = 180;
-        this.timerEvent = this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
-        
-               
+           
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
         this.endBg.kill();
@@ -81,36 +76,27 @@ tetris.inGame = {
         this.winTitle.stroke = '#ffffff';
         this.winTitle.strokeThickness = 5;
         this.winTitle.kill();
-        this.newTimer = tetris.game.time.create(false);
-        this.revent = this.newTimer.add(Phaser.Timer.SECOND * 4, this.toEnd, this);
-        //Win
-        this.resetTitle = this.game.add.text( gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 100, 'Reset?');
-        this.resetTitle.fill = '#43fd38';
-        this.resetTitle.anchor.setTo(.5);
-        this.resetTitle.font = 'Arial Black';
-        this.resetTitle.fontSize = 80;
-        this.resetTitle.stroke = '#ffffff';
-        this.resetTitle.strokeThickness = 5;
-        this.resetTitle.kill();
+        
+        //Start
+        this.game.time.events.add(Phaser.Timer.SECOND * 3, this.toPlayState, this);
+        this.startCounter = 3;
+        this.starTimer = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "3", 64);
+        this.starTimer.anchor.setTo(0.5);
+        this.startEvent = this.game.time.events.loop(Phaser.Timer.SECOND, this.updateStartTimer, this);
     },
     update:function(){
         
         switch(this.playingState){
             case PlayingStates.COUNTDOWN:
-                this.playingState = PlayingStates.PLAY;
-                this.player1.myGrid.pieceTimer.timer.resume();
-                this.player2.myGrid.pieceTimer.timer.resume();
                 break;
             case PlayingStates.PLAY:
                 this.player1.PjUpdate();
                 this.player2.PjUpdate();
                 if(this.player1.CheckLose() || this.player2.CheckLose()){
-                    this.toWin();
+                    this.toEndState();
                 }
                 break;
             case PlayingStates.PAUSE:
-                break;
-            case PlayingStates.WIN:
                 break;
             case PlayingStates.END:
                 break;
@@ -126,27 +112,28 @@ tetris.inGame = {
         //Reiniciar  
     },
     toWin:function(){
-        this.playingState = PlayingStates.WIN;
+        
+    },
+    toEndState: function(){
+        this.playingState = PlayingStates.END;
+        
         this.endBg.revive();
         this.endBg.bringToTop();
     
-        this.player1.myGrid.pieceTimer.timer.pause();
-        this.player2.myGrid.pieceTimer.timer.pause();
+        this.player1.myGrid.PauseTimer();
+        this.player2.myGrid.PauseTimer();
         
         this.winTitle.revive();
         this.winTitle.bringToTop();
         
-        this.revent.timer.start();
+        var resetButton = this.createButton(this, "Reset", this.world.centerX - 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('inGame');});
+        var menuButton = this.createButton(this, "Menu", this.world.centerX + 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('mainMenu');});
     },
-    toEnd: function(){
-        this.playingState = PlayingStates.END;
-        this.winTitle.kill();
-        
-        this.resetTitle.revive();
-        this.resetTitle.bringToTop();
-        
-        var resetButton = this.createButton(this, "Reset", this.world.centerX, this.world.centerY+80, 150,40, function(){this.game.state.start('inGame');});
-        var menuButton = this.createButton(this, "Menu", this.world.centerX, this.world.centerY, 150,40, function(){this.game.state.start('mainMenu');});
+    toPlayState: function(){
+        this.playingState = PlayingStates.PLAY;
+        this.player1.myGrid.ResumeTimer();
+        this.player2.myGrid.ResumeTimer();
+        this.timerEvent = this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
     },
     //Creates a button given the game and his basic propierties
     createButton: function(g1, string, x,y,w,h,callback){
@@ -168,8 +155,21 @@ tetris.inGame = {
         this.timerText.text = String.format("{0}:{1:00}", minutes, seconds);
         
         if(minutes <= 0 && seconds <= 0){
-            //TODO: delete this and add endgame function
             this.timerEvent.timer.remove(this.timerEvent);
+            this.toEndState();
+        }
+    },
+    updateStartTimer:function(){
+        this.startCounter--;
+        var minutes = Math.floor((this.startCounter/60));
+        var seconds = this.startCounter - minutes*60;
+           
+        this.starTimer.text = String.format("{0}", seconds);
+        
+        if(minutes <= 0 && seconds <= 0){
+            this.startEvent.timer.remove(this.startEvent);
+            this.starTimer.destroy();
+            this.timerText.text = "3:00";
         }
     },
 };
