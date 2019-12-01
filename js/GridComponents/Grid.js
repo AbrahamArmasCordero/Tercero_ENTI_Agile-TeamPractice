@@ -9,7 +9,7 @@ const TypeOfMovement ={
 }
 
 tetris.Grid = function(pixStartX, pixStartY){
-    
+    this.lose = false;
     this.startCellX = pixStartX;
     this.startCellY = pixStartY;
     
@@ -280,6 +280,16 @@ tetris.Grid.prototype.CheckFullLine = function(posY){
     }
     return true;
 };
+tetris.Grid.prototype.CheckLose = function(){
+    this.lose = this.CheckLineHasPiece(0);
+    if(this.lose == true)
+        return this.lose;
+    this.lose = this.CheckLineHasPiece(1);
+    if(this.lose == true)
+        return this.lose;
+    return this.lose;
+}
+
 tetris.Grid.prototype.CheckLineHasPiece = function(posY){
 
     for (var posX = 0 ; posX < gameOptions.gridCellWidthCount; posX++)
@@ -291,6 +301,7 @@ tetris.Grid.prototype.CheckLineHasPiece = function(posY){
     }
     return false;
 };
+
 //CURRENT PIECE LOGIC
 tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
     this.currentPiece = piece;
@@ -411,9 +422,12 @@ tetris.Grid.prototype.FallPiece = function(){
 }
 
 tetris.Grid.prototype.SpawnNewPiece = function(){
-    var newPiece = this.pieceFactory.createPiece();
-    this.AddPiece(newPiece,3,0);
-    this.UpdateNextPiece(SpriteID.I);
+    this.CheckLose();
+    if(this.lose == false){
+        var newPiece = this.pieceFactory.createPiece();
+        this.AddPiece(newPiece,3,0);
+        this.UpdateNextPiece(SpriteID.I);
+    }
 }
 
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
