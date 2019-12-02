@@ -62,7 +62,7 @@ tetris.inGame = {
         this.timerText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "", 64);
         this.timerText.anchor.setTo(0.5);
         
-        this.currentTime = 180;
+        this.currentTime = 0;
            
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
@@ -151,16 +151,11 @@ tetris.inGame = {
         txt.anchor.setTo(0.5,0.5);
     },
     updateTimer:function(){
-        this.currentTime--;
+        this.currentTime++;
         var minutes = Math.floor((this.currentTime/60));
         var seconds = this.currentTime - minutes*60;
            
-        this.timerText.text = String.format("{0}:{1:00}", minutes, seconds);
-        
-        if(minutes <= 0 && seconds <= 0){
-            this.timerEvent.timer.remove(this.timerEvent);
-            this.toEndState();
-        }
+        this.timerText.text = String.format("{0:00}:{1:00}", minutes, seconds);
     },
     updateStartTimer:function(){
         this.startCounter--;
@@ -172,7 +167,7 @@ tetris.inGame = {
         if(minutes <= 0 && seconds <= 0){
             this.startEvent.timer.remove(this.startEvent);
             this.starTimer.destroy();
-            this.timerText.text = "3:00";
+            this.timerText.text = "00:00";
         }
     },
 };
