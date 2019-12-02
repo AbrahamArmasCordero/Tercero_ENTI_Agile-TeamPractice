@@ -280,15 +280,20 @@ tetris.Grid.prototype.CheckFullLine = function(posY){
     }
     return true;
 };
+
 tetris.Grid.prototype.CheckLose = function(){
-    this.lose = this.CheckLineHasPiece(0);
-    if(this.lose == true)
-        return this.lose;
-    this.lose = this.CheckLineHasPiece(1);
-    if(this.lose == true)
-        return this.lose;
+    if(this.currentPiece != null){
+        if(this.CheckLineHasPiece(1)){
+            this.lose = this.currentPiece.IsSolaped(this);
+            if(this.lose == true)
+                return this.lose;
+            this.lose = this.currentPiece.IsSolaped(this);
+            if(this.lose == true)
+                return this.lose;
+        }
+    }
     return this.lose;
-}
+};
 
 tetris.Grid.prototype.CheckLineHasPiece = function(posY){
 

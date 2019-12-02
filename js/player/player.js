@@ -25,7 +25,10 @@ tetris.Player.prototype.Update = function(){
 };
 
 tetris.Player.prototype.CheckLose = function(){
-    return this.myGrid.CheckLose();
+    if(this.myGrid != null)
+        return this.myGrid.CheckLose();
+    else    
+        return false;
 };
 
 tetris.Player.prototype.PjUpdate = function(){

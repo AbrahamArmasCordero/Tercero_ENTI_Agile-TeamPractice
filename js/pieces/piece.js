@@ -57,10 +57,6 @@ tetris.piece.prototype.MovePiece = function(movementType, grid){
     }
 }
 
-tetris.piece.prototype.ChechkLose = function(grid){
-    
-}
-
 tetris.piece.prototype.Rotate = function(grid){
     if(this.pieceSprite!=0){
         this.rotatedState++;
@@ -102,6 +98,19 @@ tetris.piece.prototype.Rotate = function(grid){
         }
     }
 }
+
+tetris.piece.prototype.IsSolaped = function(grid){
+    for(var y = 0; y < 2; y++){
+        for(var x = 0; x < this.pieceMatrix[this.rotatedState].length; x++){
+            if(this.pieceMatrix[this.rotatedState][y][x] == 1){
+                if(this.OcuppiedBlock(grid,x,y)){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+};
 
 tetris.piece.prototype.IsCollisionSide = function(grid, collisionSide){
     for(var y = 0; y < this.pieceMatrix[this.rotatedState].length; y++){
