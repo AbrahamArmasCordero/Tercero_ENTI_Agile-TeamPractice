@@ -282,16 +282,6 @@ tetris.Grid.prototype.CheckFullLine = function(posY){
 };
 
 tetris.Grid.prototype.CheckLose = function(){
-    if(this.currentPiece != null){
-        if(this.CheckLineHasPiece(1)){
-            this.lose = this.currentPiece.IsSolaped(this);
-            if(this.lose == true)
-                return this.lose;
-            this.lose = this.currentPiece.IsSolaped(this);
-            if(this.lose == true)
-                return this.lose;
-        }
-    }
     return this.lose;
 };
 
@@ -318,16 +308,21 @@ tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
         for(var y = 0 ; y < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; y++)
         {
             if(this.currentPiece.pieceMatrix[this.currentPiece.rotatedState][x][y] == 1)
-            {
+            {                
                 var posX = this.currentPiece.x + y;
                 var posY = this.currentPiece.y + x;
                 
                 var pixX = gameOptions.cellWidth * posX;
                 var pixY = gameOptions.cellHeight * posY;
                 
-                 this.gridMatrix[posY][posX].spriteID = this.currentPiece.pieceSprite;
-                 this.gridMatrix[posY][posX].state = CellStates.MOVING;
-                 this.gridMatrix[posY][posX].img = 
+                if(this.gridMatrix[posY][posX].state == CellStates.PLACED){
+                    this.lose = true;
+                    break;
+                }
+
+                this.gridMatrix[posY][posX].spriteID = this.currentPiece.pieceSprite;
+                this.gridMatrix[posY][posX].state = CellStates.MOVING;
+                this.gridMatrix[posY][posX].img = 
                      tetris.game.add.image(this.startCellX + pixX,this.startCellY + pixY, SpriteIMG[this.currentPiece.pieceSprite]);
             }
         }
@@ -427,13 +422,14 @@ tetris.Grid.prototype.FallPiece = function(){
 }
 
 tetris.Grid.prototype.SpawnNewPiece = function(){
-    this.CheckLose();
     if(this.lose == false){
         var newPiece = this.pieceFactory.createPiece();
         this.AddPiece(newPiece,3,0);
         this.UpdateNextPiece(SpriteID.I);
     }
+    
 }
+
 
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
         

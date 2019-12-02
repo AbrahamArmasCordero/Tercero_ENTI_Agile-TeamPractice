@@ -99,16 +99,10 @@ tetris.piece.prototype.Rotate = function(grid){
     }
 }
 
-tetris.piece.prototype.IsSolaped = function(grid){
-    for(var y = 0; y < 2; y++){
-        for(var x = 0; x < this.pieceMatrix[this.rotatedState].length; x++){
-            if(this.pieceMatrix[this.rotatedState][y][x] == 1){
-                if(this.OcuppiedBlock(grid,x,y)){
-                    return true;
-                }
-            }
-        }
-    }
+tetris.piece.prototype.IsSolaped = function(grid, x, y){
+    if(grid.gridMatrix[(this.y + y)][(this.x + x)].state == CellStates.PLACED){
+        return true;
+    }   
     return false;
 };
 
