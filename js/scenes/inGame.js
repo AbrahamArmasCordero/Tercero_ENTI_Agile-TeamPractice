@@ -67,15 +67,7 @@ tetris.inGame = {
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
         this.endBg.kill();
-        //End Tittle
-        this.winTitle = this.game.add.text( gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 100, 'Player 1 Win');
-        this.winTitle.fill = '#43fd38';
-        this.winTitle.anchor.setTo(.5);
-        this.winTitle.font = 'Arial Black';
-        this.winTitle.fontSize = 80;
-        this.winTitle.stroke = '#ffffff';
-        this.winTitle.strokeThickness = 5;
-        this.winTitle.kill();
+
         
         //Start
         this.game.time.events.add(Phaser.Timer.SECOND * 3, this.toPlayState, this);
@@ -92,8 +84,13 @@ tetris.inGame = {
             case PlayingStates.PLAY:
                 this.player1.PjUpdate();
                 this.player2.PjUpdate();
-                if(this.player1.CheckLose() || this.player2.CheckLose()){
-                    this.toEndState();
+                if(this.player1.CheckLose()){
+                    this.toEndState("Player 2");
+                    break;
+                }
+                if(this.player2.CheckLose()){
+                    this.toEndState("Player 1");
+                    break;
                 }
                 break;
             case PlayingStates.PAUSE:
@@ -114,7 +111,7 @@ tetris.inGame = {
     toWin:function(){
         
     },
-    toEndState: function(){
+    toEndState: function(name){
         this.playingState = PlayingStates.END;
         
         this.endBg.revive();
@@ -123,8 +120,14 @@ tetris.inGame = {
         this.player1.myGrid.PauseTimer();
         this.player2.myGrid.PauseTimer();
         
-        this.winTitle.revive();
-        this.winTitle.bringToTop();
+        this.game.time.events.removeAll();
+        
+        //End Tittle
+        this.winTitle = this.game.add.bitmapText( gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 100, 'titleFont', name + ' wins', 80);
+        this.winTitle.fill = '#43fd38';
+        this.winTitle.anchor.setTo(.5);
+        this.winTitle.stroke = '#ffffff';
+        this.winTitle.strokeThickness = 5;
         
         var resetButton = this.createButton(this, "Reset", this.world.centerX - 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('inGame');});
         var menuButton = this.createButton(this, "Menu", this.world.centerX + 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('mainMenu');});
