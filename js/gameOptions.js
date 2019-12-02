@@ -14,5 +14,10 @@ var gameOptions = {
     grid01PositionY: 80,
     
     grid02PositionX: 864,
-    grid02PositionY: 80
+    grid02PositionY: 80,
+    
+    pieceFramePixSize:128,
+    
+    pointsForLine:10,
+    tetrisMultiplier:10
 };

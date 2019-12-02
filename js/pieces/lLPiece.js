@@ -23,7 +23,7 @@ tetris.lLPiece = function(){
             [1, 1, 0]
         ]
     ];
-    this.pieceSprite = 1;
+    this.pieceSprite = 2;
 };
 
 tetris.lLPiece.prototype = Object.create(tetris.piece.prototype);

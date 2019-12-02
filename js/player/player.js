@@ -1,16 +1,20 @@
 var tetris = tetris || {};
 
-var Score;
 var Name;
 var holdedPiece;
-var Grid;
 
 tetris.Player = function(controller, pixStartX, pixStartY){
-    
+    this.score = 0;
     this.cursors = controller;
     this.myGrid = new tetris.Grid(pixStartX,pixStartY);
-    //Testing piece
-    this.myGrid.AddPiece(new tetris.iPiece(),3,0);
+    
+    var scorePos = pixStartX+gameOptions.gridCellWidthCount*gameOptions.cellWidth*0.5;
+    
+    this.scoreText = tetris.game.add.bitmapText(scorePos, 50, 'titleFont',"Score: "+this.score.toString(), 64);
+    this.scoreText.anchor.setTo(.5);
+    
+    this.myGrid.scoreSignal.add(this.AddScore, this);
+    
 };
 
 tetris.Player.prototype = Object.create(tetris.Player.prototype);
@@ -21,7 +25,10 @@ tetris.Player.prototype.Update = function(){
 };
 
 tetris.Player.prototype.CheckLose = function(){
-    
+    if(this.myGrid != null)
+        return this.myGrid.CheckLose();
+    else    
+        return false;
 };
 
 tetris.Player.prototype.PjUpdate = function(){
@@ -38,12 +45,12 @@ tetris.Player.prototype.PjUpdate = function(){
         }
         //DOWN Independent
         if(this.cursors.down.isDown && this.cursors.down.downDuration(1))
-        {
+        {   
             this.myGrid.MovePiece(TypeOfMovement.FASTER);
         }
         if(this.cursors.up.isDown && this.cursors.up.downDuration(1))
         {
-            //this.myGrid.MovePiece(TypeOfMovement.DROP);
+            this.myGrid.MovePiece(TypeOfMovement.DROP);
         }
         if(this.cursors.hold.isDown && this.cursors.hold.downDuration(1))
         {
@@ -51,6 +58,12 @@ tetris.Player.prototype.PjUpdate = function(){
         }
         if(this.cursors.rotate.isDown && this.cursors.rotate.downDuration(1))
         {
-            //this.myGrid.MovePiece(TypeOfMovement.ROTATE);
+            this.myGrid.MovePiece(TypeOfMovement.ROTATE);
         }
+}
+
+tetris.Player.prototype.AddScore = function(toAdd){
+    this.score += toAdd;
+    this.scoreText.text = "Score: "+this.score.toString();
+    console.log(this.score);
 }
