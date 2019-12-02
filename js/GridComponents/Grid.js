@@ -421,7 +421,7 @@ tetris.Grid.prototype.SpawnNewPiece = function(){
     if(this.lose == false){
         var newPiece = this.pieceFactory.createPiece();
         this.AddPiece(newPiece,3,0);
-        this.UpdateNextPiece(SpriteID.I);
+        this.UpdateNextPiece(this.pieceFactory.nextPiece);
     }
     
 }
