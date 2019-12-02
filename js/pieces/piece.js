@@ -99,6 +99,13 @@ tetris.piece.prototype.Rotate = function(grid){
     }
 }
 
+tetris.piece.prototype.IsSolaped = function(grid, x, y){
+    if(grid.gridMatrix[(this.y + y)][(this.x + x)].state == CellStates.PLACED){
+        return true;
+    }   
+    return false;
+};
+
 tetris.piece.prototype.IsCollisionSide = function(grid, collisionSide){
     for(var y = 0; y < this.pieceMatrix[this.rotatedState].length; y++){
         for(var x = 0; x < this.pieceMatrix[this.rotatedState].length; x++){

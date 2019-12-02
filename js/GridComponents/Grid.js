@@ -9,7 +9,7 @@ const TypeOfMovement ={
 }
 
 tetris.Grid = function(pixStartX, pixStartY){
-    
+    this.lose = false;
     this.startCellX = pixStartX;
     this.startCellY = pixStartY;
     
@@ -276,6 +276,11 @@ tetris.Grid.prototype.CheckFullLine = function(posY){
     }
     return true;
 };
+
+tetris.Grid.prototype.CheckLose = function(){
+    return this.lose;
+};
+
 tetris.Grid.prototype.CheckLineHasPiece = function(posY){
 
     for (var posX = 0 ; posX < gameOptions.gridCellWidthCount; posX++)
@@ -287,6 +292,7 @@ tetris.Grid.prototype.CheckLineHasPiece = function(posY){
     }
     return false;
 };
+
 //CURRENT PIECE LOGIC
 tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
     this.currentPiece = piece;
@@ -298,16 +304,21 @@ tetris.Grid.prototype.AddPiece = function(piece, cellX,cellY){
         for(var y = 0 ; y < this.currentPiece.pieceMatrix[this.currentPiece.rotatedState].length; y++)
         {
             if(this.currentPiece.pieceMatrix[this.currentPiece.rotatedState][x][y] == 1)
-            {
+            {                
                 var posX = this.currentPiece.x + y;
                 var posY = this.currentPiece.y + x;
                 
                 var pixX = gameOptions.cellWidth * posX;
                 var pixY = gameOptions.cellHeight * posY;
                 
-                 this.gridMatrix[posY][posX].spriteID = this.currentPiece.pieceSprite;
-                 this.gridMatrix[posY][posX].state = CellStates.MOVING;
-                 this.gridMatrix[posY][posX].img = 
+                if(this.gridMatrix[posY][posX].state == CellStates.PLACED){
+                    this.lose = true;
+                    break;
+                }
+
+                this.gridMatrix[posY][posX].spriteID = this.currentPiece.pieceSprite;
+                this.gridMatrix[posY][posX].state = CellStates.MOVING;
+                this.gridMatrix[posY][posX].img = 
                      tetris.game.add.image(this.startCellX + pixX,this.startCellY + pixY, SpriteIMG[this.currentPiece.pieceSprite]);
             }
         }
@@ -407,10 +418,14 @@ tetris.Grid.prototype.FallPiece = function(){
 }
 
 tetris.Grid.prototype.SpawnNewPiece = function(){
-    var newPiece = this.pieceFactory.createPiece();
-    this.AddPiece(newPiece,3,0);
-    this.UpdateNextPiece(this.pieceFactory.nextPiece);  
+    if(this.lose == false){
+        var newPiece = this.pieceFactory.createPiece();
+        this.AddPiece(newPiece,3,0);
+        this.UpdateNextPiece(SpriteID.I);
+    }
+    
 }
+
 
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
         
