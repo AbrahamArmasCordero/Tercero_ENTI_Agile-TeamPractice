@@ -5,7 +5,8 @@ const TypeOfMovement ={
     FASTER: 1,
     RIGHT: 2,
     LEFT: 3,
-    ROTATE: 4
+    ROTATE: 4,
+    HOLD:5
 }
 
 tetris.Grid = function(pixStartX, pixStartY){
@@ -394,6 +395,22 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
             this.currentPiece.MovePiece(TypeOfMovement.ROTATE, this);
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;
+        case TypeOfMovement.HOLD:
+            //guardar aux del hold piece
+            var holdedId
+            if(this.holdedPieceID != null)
+                holdedId = this.holdedPieceID;
+            else{
+                holdedId = this.currentPiece.pieceSprite;
+                //spawnear la siguiente
+            }
+            //Update del Hold Piece
+            this.UpdateHoldPiece(this.currentPiece.pieceSprite);
+            //cambiar current Piece
+            var holdedPiece = this.pieceFactory.RequestPiece(holdedId);
+            this.RemoveCurrentPiece();
+            this.AddPiece(holdedPiece, this.currentPiece.x, this.currentPiece.y);
+            break;
     }
 };
 
@@ -443,11 +460,13 @@ tetris.Grid.prototype.UpdateHoldPiece = function(pieceID){
     var imgXPos = this.holdFrameXPos+gameOptions.pieceFramePixSize/2;
     var imgYPos = this.startCellY+gameOptions.pieceFramePixSize/2;
     
-    this.holdPieceIMG.destroy();
+    if(this.holdedPieceIMG != null)
+        this.holdedPieceIMG.destroy();
+
     this.holdedPieceID = pieceID;
-    this.holdPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
-    this.holdPieceIMG.anchor.setTo(0.5);
-    this.holdPieceIMG.scale.setTo(0.6);
+    this.holdedPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
+    this.holdedPieceIMG.anchor.setTo(0.5);
+    this.holdedPieceIMG.scale.setTo(0.6);
 }
 
 tetris.Grid.prototype.PauseTimer = function(){
