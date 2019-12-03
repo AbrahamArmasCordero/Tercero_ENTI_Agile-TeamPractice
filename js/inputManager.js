@@ -21,6 +21,8 @@ tetris.inputManager = function(_game){
              'hold': Phaser.KeyCode.Q,
              'rotate': Phaser.KeyCode.W} );
         //Q = Hold / W = Rotate
+    
+    this.pause = tetris.game.input.keyboard.addKey(Phaser.Keyboard.P);
 };
  
 tetris.inputManager.prototype = Object.create(tetris.inputManager.prototype);
