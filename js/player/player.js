@@ -48,13 +48,14 @@ tetris.Player.prototype.PjUpdate = function(){
         {   
             this.myGrid.MovePiece(TypeOfMovement.FASTER);
         }
+    
         if(this.cursors.up.isDown && this.cursors.up.downDuration(1))
         {
             this.myGrid.MovePiece(TypeOfMovement.DROP);
         }
         if(this.cursors.hold.isDown && this.cursors.hold.downDuration(1))
         {
-            //this.myGrid.MovePiece(TypeOfMovement.FASTER);
+            this.myGrid.MovePiece(TypeOfMovement.HOLD);
         }
         if(this.cursors.rotate.isDown && this.cursors.rotate.downDuration(1))
         {
