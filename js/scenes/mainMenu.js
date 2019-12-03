@@ -9,8 +9,10 @@ tetris.mainMenu = {
     },
     preload:function(){
         var ruta = 'assets/img/';
-        this.game.load.spritesheet('bt1', ruta+'button.png', 268, 101);
+        this.game.load.spritesheet('bt1', ruta + 'button.png', 268, 101);
         this.game.stage.backgroundColor = '#182d3b';
+        
+        this.load.image("inputText", ruta + 'frameLayout/inputText.png');
 
         this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
 
@@ -21,6 +23,13 @@ tetris.mainMenu = {
         
         this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 100, 'tittleFont', 'BATTLE TETRIS', 110);
         this.title.tint = 0xFFFFFF;
+        
+        this.inputSprite01 = this.game.add.sprite(gameOptions.gameWidth/2 - 300,600,'inputText');
+        this.inputSprite01.anchor.setTo(.5);
+        this.inputSprite01.scale.setTo(1);
+        this.inputSprite02 = this.game.add.sprite(gameOptions.gameWidth/2 + 300,600,'inputText');
+        this.inputSprite02.anchor.setTo(.5);
+        this.inputSprite02.scale.setTo(1);
 
         var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, function(){this.game.state.start('inGame');});
     },
