@@ -2,7 +2,11 @@ var tetris = tetris || {};
 
 //var bt1;
 tetris.mainMenu = {
-
+    init:function(){
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.scale.pageAlignHorizontally = true;
+        this.scale.pageAlignVertically = true;
+    },
     preload:function(){
         var ruta = 'assets/img/';
         this.game.load.spritesheet('bt1', ruta+'button.png', 268, 101);
@@ -15,12 +19,8 @@ tetris.mainMenu = {
     
     create:function(){
         
-        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.scale.pageAlignHorizontally = true;
         this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 100, 'tittleFont', 'BATTLE TETRIS', 110);
         this.title.tint = 0xFFFFFF;
-        
-        var bt1 = this.createButton(this, "Exit", this.world.centerX, this.world.centerY +80, 150, 40, function(){  this.game.destroy(); }); // Change Console.Log por la accion de cerrar.
 
         var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, function(){this.game.state.start('inGame');});
     },
