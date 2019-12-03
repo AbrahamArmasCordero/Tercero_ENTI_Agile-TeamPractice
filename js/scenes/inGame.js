@@ -131,7 +131,7 @@ tetris.inGame = {
         this.winTitle.strokeThickness = 5;
         
         var resetButton = this.createButton(this, "Reset", this.world.centerX - 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('inGame');});
-        var menuButton = this.createButton(this, "Menu", this.world.centerX + 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('mainMenu');});
+        var rankingButton = this.createButton(this, "Ranking", this.world.centerX + 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('ranking');});
     },
     toPlayState: function(){
         this.playingState = PlayingStates.PLAY;
