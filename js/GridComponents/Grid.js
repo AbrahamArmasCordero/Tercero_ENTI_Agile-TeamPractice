@@ -398,18 +398,37 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
         case TypeOfMovement.HOLD:
             //guardar aux del hold piece
             var holdedId
-            if(this.holdedPieceID != null)
+            var holdedPiece
+            
+            if(this.holdedPieceID != null){
                 holdedId = this.holdedPieceID;
+                holdedPiece = this.pieceFactory.RequestPiece(holdedId);
+                this.UpdateHoldPiece(this.currentPiece.pieceSprite);
+                this.RemoveCurrentPiece();
+                //check wall colision
+                if(holdedPiece.pieceSprite == SpriteID.I){
+                   if(this.currentPiece.x >= gameOptions.gridCellWidthCount-3){
+                       this.currentPiece.x--;
+                   }    
+                }
+                this.AddPiece(holdedPiece, this.currentPiece.x, this.currentPiece.y);
+                
+            }
             else{
                 holdedId = this.currentPiece.pieceSprite;
+                this.UpdateHoldPiece(this.currentPiece.pieceSprite);    
                 //spawnear la siguiente
+                this.RemoveCurrentPiece();
+                var newPiece = this.pieceFactory.createPiece();
+                //check wall colision
+                if(newPiece.pieceSprite == SpriteID.I){
+                   if(this.currentPiece.x >= gameOptions.gridCellWidthCount-3){
+                       this.currentPiece.x--;
+                   }    
+                }
+                this.AddPiece(newPiece, this.currentPiece.x, this.currentPiece.y);
+                this.UpdateNextPiece(this.pieceFactory.nextPiece);
             }
-            //Update del Hold Piece
-            this.UpdateHoldPiece(this.currentPiece.pieceSprite);
-            //cambiar current Piece
-            var holdedPiece = this.pieceFactory.RequestPiece(holdedId);
-            this.RemoveCurrentPiece();
-            this.AddPiece(holdedPiece, this.currentPiece.x, this.currentPiece.y);
             break;
     }
 };
