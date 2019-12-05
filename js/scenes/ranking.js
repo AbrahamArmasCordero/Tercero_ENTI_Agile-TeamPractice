@@ -59,10 +59,10 @@ tetris.ranking = {
     },
     
     creatButtonsBack: function(){
-        this.resetButton = this.createButton(this, "Reset", this.world.centerX - 155, this.world.centerY + 140, 170,40, function(){
+        this.resetButton = this.createButton(this, "Reset", this.world.centerX - 155, this.world.centerY + 140, 150,40, function(){
             this.game.state.start('inGame');
         });
-        this.menuButton = this.createButton(this, "Menu", this.world.centerX + 155, this.world.centerY + 140, 170,40, function(){
+        this.menuButton = this.createButton(this, "Menu", this.world.centerX + 155, this.world.centerY + 140, 150,40, function(){
             this.game.state.start('mainMenu');
         });
         this.creatButton = true;
