@@ -409,7 +409,10 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
                 if(holdedPiece.pieceSprite == SpriteID.I){
                    if(this.currentPiece.x >= gameOptions.gridCellWidthCount-3){
                        this.currentPiece.x--;
-                   }    
+                    }
+                    else if(this.currentPiece.x <= 0){
+                        this.currentPiece.x++;
+                    }
                 }
                 this.AddPiece(holdedPiece, this.currentPiece.x, this.currentPiece.y);
                 
