@@ -44,9 +44,13 @@ tetris.inGame = {
         this.load.image("pause_bg", ruta + 'backgrounds/background_pause.png');  
         //Load End state
          this.load.image('end_bg', ruta + 'backgrounds/endBackground.png');
+        //Bg
+         this.load.image('main_bg', ruta+'backgrounds/background_ingame.png');
     },
     create:function(){
-              
+         //BG
+        this.mainBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'main_bg');
+        
         //Inputs
         this.inputHandler = new tetris.inputManager(tetris.game);
         
@@ -63,7 +67,7 @@ tetris.inGame = {
         this.timerText.anchor.setTo(0.5);
         
         this.currentTime = 0;
-           
+ 
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
         this.endBg.kill();
@@ -80,6 +84,7 @@ tetris.inGame = {
         
         //Buttons
         this.buttonsText = [];
+
     },
     update:function(){
         
