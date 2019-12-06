@@ -66,7 +66,8 @@ tetris.piece.prototype.Rotate = function(grid){
         }
         for(var y = 0; y < this.pieceMatrix[this.rotatedState].length; y++){
             for(var x = 0; x < this.pieceMatrix[this.rotatedState].length; x++){
-                if(grid.gridMatrix[(this.y + y)][(this.x + x)] == null){
+                
+                if(grid.gridMatrix[(this.y + y)] != null && grid.gridMatrix[(this.y + y)][(this.x + x)] == null){
                         rot = false;
                     break;
                 }
@@ -136,7 +137,7 @@ tetris.piece.prototype.IsCollisionSide = function(grid, collisionSide){
 }
 
 tetris.piece.prototype.OcuppiedBlock = function(grid, x, y){
-    if(grid.gridMatrix[(this.y + y)][(this.x + x)].state == CellStates.PLACED){
+    if(grid.gridMatrix[(this.y + y)] != null && grid.gridMatrix[(this.y + y)][(this.x + x)].state == CellStates.PLACED){
         return true;
     }   
     return false;
