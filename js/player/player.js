@@ -3,7 +3,7 @@ var tetris = tetris || {};
 var Name;
 var holdedPiece;
 
-tetris.Player = function(controller, pixStartX, pixStartY){
+tetris.Player = function(controller, pixStartX, pixStartY, name, nameX, nameY){
     this.score = 0;
     this.cursors = controller;
     this.myGrid = new tetris.Grid(pixStartX,pixStartY);
@@ -11,7 +11,10 @@ tetris.Player = function(controller, pixStartX, pixStartY){
     var scorePos = pixStartX+gameOptions.gridCellWidthCount*gameOptions.cellWidth*0.5;
     
     this.scoreText = tetris.game.add.bitmapText(scorePos, 50, 'titleFont',"Score: "+this.score.toString(), 64);
-    this.scoreText.anchor.setTo(.5);
+    this.scoreText.anchor.setTo(.5);  
+    
+    this.nameText = tetris.game.add.bitmapText(nameX, nameY, 'titleFont', name, 64);
+    
     
     this.myGrid.scoreSignal.add(this.AddScore, this);
     
@@ -66,5 +69,4 @@ tetris.Player.prototype.PjUpdate = function(){
 tetris.Player.prototype.AddScore = function(toAdd){
     this.score += toAdd;
     this.scoreText.text = "Score: "+this.score.toString();
-    console.log(this.score);
 }

@@ -57,11 +57,13 @@ tetris.inGame = {
         //Players
         this.player1 = new tetris.Player(this.inputHandler.cursorsPlayer01, 
                                          gameOptions.grid01PositionX,
-                                         gameOptions.grid01PositionY);
+                                         gameOptions.grid01PositionY, pj1Name,
+                                         gameOptions.grid01PositionX - gameOptions.pieceFramePixSize,250);
         
         this.player2 = new tetris.Player(this.inputHandler.cursorsPlayer02, 
                                          gameOptions.grid02PositionX,
-                                         gameOptions.grid02PositionY);
+                                         gameOptions.grid02PositionY, pj2Name,
+                                         gameOptions.grid02PositionX+ gameOptions.cellWidth* gameOptions.gridCellWidthCount+8,250);
         
         this.timerText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "", 64);
         this.timerText.anchor.setTo(0.5);

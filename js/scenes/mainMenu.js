@@ -6,6 +6,7 @@ tetris.mainMenu = {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
+        this.game.add.plugin(PhaserInput.Plugin);
     },
     preload:function(){
         var ruta = 'assets/img/';
@@ -15,8 +16,6 @@ tetris.mainMenu = {
         this.load.image("inputText", ruta + 'frameLayout/inputText.png');
 
         this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
-
-
     },
     
     create:function(){
@@ -31,7 +30,44 @@ tetris.mainMenu = {
         this.inputSprite02.anchor.setTo(.5);
         this.inputSprite02.scale.setTo(1);
 
-        var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, function(){this.game.state.start('inGame');});
+        var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, this.startGame);
+        
+        this.pj1InputText = this.game.add.inputField(gameOptions.gameWidth/2 - 300-(448/2), 600-30, {
+            font: "50px Arial",
+            fill: '#000000',
+            fillAlpha: 0,
+            fontWeight: 'bold',
+            width: 448,
+            height:159,
+            max: 5,
+            padding: 2,
+            borderWidth: 1,
+            borderColor: '#000',
+            borderRadius: 6,
+            placeHolder: 'PJ1Name',
+            textAlign: 'center',
+            cursorColor : '#000000'
+        });
+        
+        this.pj2InputText = this.game.add.inputField(gameOptions.gameWidth/2 + 300-(448/2), 600-30, {
+            font: "50px Arial",
+            fill: '#000000',
+            fillAlpha: 0,
+            fontWeight: 'bold',
+            width: 448,
+            height:159,
+            max: 5,
+            padding: 2,
+            borderWidth: 1,
+            borderColor: '#000',
+            borderRadius: 6,
+            placeHolder: 'PJ2Name',
+            textAlign: 'center',
+            cursorColor : '#000000'
+        });
+        
+        
+        
     },
     update:function(){
         
@@ -48,9 +84,28 @@ tetris.mainMenu = {
                                                    fill: "#000",
                                                    align: "center"});
         txt.anchor.setTo(0.5,0.5);
+    },
+    
+    checkName:function(name, comparison){
+        if(name == null || name == "" || name == comparison){
+            return false;
+        }
+        else{
+            return true;
+        }
+    },
+    startGame:function(){
+        if(this.checkName(this.pj1InputText.value,this.pj2InputText.value) && this.checkName(this.pj2InputText.value,this.pj1InputText.value)){
+            //set pj1 name
+            pj1Name = this.pj1InputText.value
+            //set pj2 name
+            pj2Name = this.pj2InputText.value
+            this.game.state.start('inGame');
+        }
     }
-
 };
+
+
 
 
 

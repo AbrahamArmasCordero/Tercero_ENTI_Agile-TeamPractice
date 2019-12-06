@@ -1,5 +1,8 @@
 var tetris = tetris || {};
 
+var pj1Name = null;
+var pj2Name = null;
+
 tetris.game = new Phaser.Game(gameOptions.gameWidth, gameOptions.gameHeight,Phaser.AUTO,null,this,false,false);
 
 tetris.game.state.add('mainMenu', tetris.mainMenu);
