@@ -129,6 +129,22 @@ tetris.inGame = {
         this.player2.myGrid.PauseTimer();
         
         this.game.time.events.removeAll();
+        //Particles
+        this.emitter = this.game.add.emitter(this.game.world.centerX, -20, 100);
+
+        this.emitter.makeParticles([SpriteFullIMG[SpriteID.I], SpriteFullIMG[SpriteID.O], SpriteFullIMG[SpriteID.T],SpriteFullIMG[SpriteID.L.Left], SpriteFullIMG[SpriteID.L.Right],SpriteFullIMG[SpriteID.Z.Left],SpriteFullIMG[SpriteID.Z.Right]]);
+
+        this.emitter.minParticleSpeed.setTo(-20, 20);
+        this.emitter.maxParticleSpeed.setTo(20, 100);
+        this.emitter.setYSpeed(20, 100);
+        this.emitter.minParticleScale = 0.2;
+        this.emitter.maxParticleScale = 0.8;
+        this.emitter.gravity = 10;
+        this.emitter.setAlpha(0.1, 1, 10000);
+        this.emitter.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
+        this.emitter.width = this.game.world.width * 1.5;
+        //(Vida de particula, cada 800ms, 4particulas, loop)
+        this.emitter.flow(10000, 300, 2, -1);
         
         //End Tittle
         this.winTitle = this.game.add.bitmapText( gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 100, 'titleFont', name + ' wins', 80);
@@ -136,9 +152,10 @@ tetris.inGame = {
         this.winTitle.anchor.setTo(.5);
         this.winTitle.stroke = '#ffffff';
         this.winTitle.strokeThickness = 5;
-        
+        //Buttons
         var resetButton = this.createButton(this, "Reset", this.world.centerX - 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('inGame');});
         var rankingButton = this.createButton(this, "Ranking", this.world.centerX + 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('ranking');});
+
     },
     toPlayState: function(){
         this.playingState = PlayingStates.PLAY;
