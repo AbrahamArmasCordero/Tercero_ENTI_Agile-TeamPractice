@@ -1,10 +1,5 @@
 var tetris = tetris || {};
-const RankingStates = {
-    SHOWPLAYERSCORE: 0,
-    SHOWRANKIGSCORES: 1,
-    ENDSHOWSCORES: 2,
-    CHANGENAMES: 3
-}
+
 
 tetris.ranking = {
     init:function(){
@@ -12,36 +7,50 @@ tetris.ranking = {
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
         this.creatButton = false;
-        this.rankingStates = RankingStates.SHOWPLAYERSCORE;
     },
     preload:function(){
+        var ruta = 'assets/img/';
+        this.game.load.spritesheet('bt1', ruta + 'button.png', 268, 101);
+        
+        this.game.load.bitmapFont('titleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt'); 
+
+        this.load.image("inputText", ruta + 'frameLayout/inputText.png');
+        this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
+        
+                //Load Pause state
+        this.load.image("ShowResults", ruta + 'backgrounds/background_pause.png');  
+        //Load End state
+        this.load.image('ShowRanking', ruta + 'backgrounds/endBackground.png');
+        //Bg
+        this.load.image('ChangeNames', ruta+'backgrounds/background_ingame.png');
         //game.stage.backgroundColor = "#FF0000";
         this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
     },
     create:function(){
+        this.mainBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'ShowResults');
+
         this.buttonsText = [];
         this.RankingScores = [];
+        
+        this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'ChangeNames');
+        this.endBg.kill();
+        //Pause
+        this.pauseBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'ShowRanking');
+        var inputSprite01 = null;
+        var inputSprite02 = null;
+        var pj2InputText = null;
+        var pj1InputText = null;        
+        this.pauseBg.kill();
+
         //Flow buttons
-        this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 50, 'tittleFont', 'RANKING', 110);
         this.CreatTableOfScores();
+        if(this.creatButton == false){
+            this.creatButtonsBack();
+        }
+        this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 50, 'tittleFont', 'RANKING', 110);
     },
     update:function(){
-        switch(this.rankingStates){
-            case RankingStates.SHOWPLAYERSCORE:
-                //Mostrar puntuacion del jugador ganador->
-                break;
-            case RankingStates.SHOWRANKIGSCORES:
-                //Mostrar la tabla del ranking->
-                break;
-            case RankingStates.ENDSHOWSCORES:                
-                if(this.creatButton == false){
-                    this.creatButtonsBack();
-                }
-                break;
-            case RankingStates.CHANGENAMES:
-                
-                break;
-        }
+
     },
     //Creates a button given the game and his basic propierties
     createButton: function(g1, string, x,y,w,h,callback){
@@ -55,11 +64,16 @@ tetris.ranking = {
         this.buttonsText.push(txt);
         return btn;
     },
+    
     SaveRankingValues: function(){
         
     },
-    CreatPlayerScore: function(g1, string, time, x, y, w, h, callback){
-        
+
+    CreatTableOfScores: function(){
+        this.endBg.revive();
+        this.endBg.bringToTop();
+        this.pauseText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 80, 'titleFont', "PAUSE", 200);
+        this.pauseText.anchor.setTo(0.5);
     },
     CreatTableOfScores: function(){
         var ranking = JSON.parse(localStorage.getItem("ranking"));
@@ -71,12 +85,48 @@ tetris.ranking = {
     },
     
     creatButtonsBack: function(){
-        this.resetButton = this.createButton(this, "Reset", this.world.centerX - 155, this.world.centerY + 140, 150,40, function(){
-            this.game.state.start('inGame');
-        });
-        this.menuButton = this.createButton(this, "Menu", this.world.centerX + 155, this.world.centerY + 140, 150,40, function(){
-            this.game.state.start('mainMenu');
-        });
+        switch(this.rankingStates){
+            case RankingStates.SHOWPLAYERSCORE:
+                this.resetButton = this.createButton(this, "Play Again", this.world.centerX - 250, this.world.centerY+140 , 190, 45, function(){
+                if(this.rankingStates == RankingStates.SHOWPLAYERSCORE)
+                    if(this.checkName(pj1Name, pj2Name) && this.checkName(pj2Name, pj1Name)){
+                        this.game.state.start('inGame');
+                    }
+                });
+                this.menuButton = this.createButton(this, "Change Names", this.world.centerX, this.world.centerY+140, 190, 45, function(){
+                    if(this.rankingStates == RankingStates.SHOWPLAYERSCORE){
+                        this.rankingStates = RankingStates.CHANGENAMES;
+                        this.creatButton = false;
+                    }
+                });
+                this.mainButton = this.createButton(this, "Main Menu", this.world.centerX + 250, this.world.centerY+140 , 190, 45, function(){
+                    if(this.rankingStates == RankingStates.SHOWPLAYERSCORE)
+                        this.game.state.start('mainMenu');
+                });
+                this.creatButton = true;
+                
+                break;
+            case RankingStates.CHANGENAMES:
+                this.resetButton.destroy();
+                this.menuButton.destroy();
+                this.mainButton.destroy();
+                
+                this.StartButton = this.createButton(this, "Play", this.world.centerX , this.world.centerY , 190, 45, function(){
+                    this.startGame();
+                });
+                this.creatButton = true;
+                break;
+                
+        }
+    },
+    
+    creatButtonsBack: function(){
+                this.resetButton = this.createButton(this, "Play Again", this.world.centerX - 250, this.world.centerY+140 , 190, 45, function(){
+                    this.game.state.start('inGame'); 
+                });
+                this.mainButton = this.createButton(this, "Main Menu", this.world.centerX + 250, this.world.centerY+140 , 190, 45, function(){
+                        this.game.state.start('mainMenu');
+                });
         this.creatButton = true;
     }
 };
