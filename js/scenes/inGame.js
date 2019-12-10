@@ -44,6 +44,7 @@ tetris.inGame = {
         this.load.image("pause_bg", ruta + 'backgrounds/background_pause.png');  
         //Load End state
          this.load.image('end_bg', ruta + 'backgrounds/endBackground.png');
+        this.load.image('background_endAnimated', ruta + 'backgrounds/background_endAnimated.png');
         //Bg
          this.load.image('main_bg', ruta+'backgrounds/background_ingame.png');
     },
@@ -73,6 +74,9 @@ tetris.inGame = {
         //End 
         this.endBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'end_bg');
         this.endBg.kill();
+        this.endAnimBg = this.game.add.sprite(gameOptions.gameWidth/2,gameOptions.gameHeight/2, 'background_endAnimated');
+        this.endAnimBg.anchor.setTo(0.5);
+        this.endAnimBg.kill();
         //Pause
         this.pauseBg = this.game.add.tileSprite(0,0,gameOptions.gameWidth,gameOptions.gameHeight, 'pause_bg');
         this.pauseBg.kill();
@@ -116,35 +120,24 @@ tetris.inGame = {
                 }
                 break;
             case PlayingStates.END:
+                this.endAnimBg.angle += 0.6;
                 break;
         }
     },
     toEndState: function(name){
         this.playingState = PlayingStates.END;
         
+        
         this.endBg.revive();
         this.endBg.bringToTop();
-    
+        this.endAnimBg.revive();
+        this.endAnimBg.bringToTop();
+        
         this.player1.myGrid.PauseTimer();
         this.player2.myGrid.PauseTimer();
         
         this.game.time.events.removeAll();
-        //Particles
-        this.emitter = this.game.add.emitter(this.game.world.centerX, -20, 100);
-
-        this.emitter.makeParticles([SpriteFullIMG[SpriteID.I], SpriteFullIMG[SpriteID.O], SpriteFullIMG[SpriteID.T],SpriteFullIMG[SpriteID.L.Left], SpriteFullIMG[SpriteID.L.Right],SpriteFullIMG[SpriteID.Z.Left],SpriteFullIMG[SpriteID.Z.Right]]);
-
-        this.emitter.minParticleSpeed.setTo(-20, 20);
-        this.emitter.maxParticleSpeed.setTo(20, 100);
-        this.emitter.setYSpeed(20, 100);
-        this.emitter.minParticleScale = 0.2;
-        this.emitter.maxParticleScale = 0.8;
-        this.emitter.gravity = 10;
-        this.emitter.setAlpha(0.1, 1, 10000);
-        this.emitter.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
-        this.emitter.width = this.game.world.width * 1.5;
-        //(Vida de particula, cada 800ms, 4particulas, loop)
-        this.emitter.flow(10000, 300, 2, -1);
+        this.createEndParticles();
         
         //End Tittle
         this.winTitle = this.game.add.bitmapText( gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 100, 'titleFont', name + ' wins', 80);
@@ -229,5 +222,23 @@ tetris.inGame = {
             this.starTimer.destroy();
             this.timerText.text = "00:00";
         }
+    },
+    createEndParticles:function(){
+        //Particles
+        this.emitter = this.game.add.emitter(this.game.world.centerX, -20, 100);
+
+        this.emitter.makeParticles([SpriteFullIMG[SpriteID.I], SpriteFullIMG[SpriteID.O], SpriteFullIMG[SpriteID.T],SpriteFullIMG[SpriteID.L.Left], SpriteFullIMG[SpriteID.L.Right],SpriteFullIMG[SpriteID.Z.Left],SpriteFullIMG[SpriteID.Z.Right]]);
+
+        this.emitter.minParticleSpeed.setTo(-20, 20);
+        this.emitter.maxParticleSpeed.setTo(20, 100);
+        this.emitter.setYSpeed(20, 100);
+        this.emitter.minParticleScale = 0.2;
+        this.emitter.maxParticleScale = 0.8;
+        this.emitter.gravity = 10;
+        this.emitter.setAlpha(0.1, 1, 5000);
+        this.emitter.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
+        this.emitter.width = this.game.world.width * 1.5;
+        //(Vida de particula, cada 800ms, 4particulas, loop)
+        this.emitter.flow(10000, 300, 2, -1);
     },
 };
