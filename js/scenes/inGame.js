@@ -131,7 +131,15 @@ tetris.inGame = {
         this.game.time.events.removeAll();
         
         //End Tittle
-        this.winTitle = this.game.add.bitmapText( gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 100, 'titleFont', name + ' wins', 80);
+    this.winTitle = this.game.add.bitmapText( gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 100, 'titleFont', name + ' wins', 80);
+        if(name == this.player1.nameText){
+            ScoreWinner = this.player1.score;
+            NameWinner = this.player1.nameText;
+        }
+        else{
+            ScoreWinner = this.player2.score;
+            NameWinner = this.player2.nameText;
+        }
         this.winTitle.fill = '#43fd38';
         this.winTitle.anchor.setTo(.5);
         this.winTitle.stroke = '#ffffff';
