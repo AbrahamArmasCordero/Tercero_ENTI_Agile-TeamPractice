@@ -2,7 +2,8 @@ var tetris = tetris || {};
 const RankingStates = {
     SHOWPLAYERSCORE: 0,
     SHOWRANKIGSCORES: 1,
-    ENDSHOWSCORES: 2
+    ENDSHOWSCORES: 2,
+    CHANGENAMES: 3
 }
 
 tetris.ranking = {
@@ -33,6 +34,9 @@ tetris.ranking = {
                 if(this.creatButton == false){
                     this.creatButtonsBack();
                 }
+                break;
+            case RankingStates.CHANGENAMES:
+                
                 break;
         }
     },
