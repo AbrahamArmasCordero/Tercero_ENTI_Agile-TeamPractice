@@ -90,7 +90,8 @@ tetris.inGame = {
         
         //Buttons
         this.buttonsText = [];
-
+        var timemultp = 1.0;
+        var lastTime = 0;
     },
     update:function(){
         
@@ -101,7 +102,7 @@ tetris.inGame = {
                 if(this.inputHandler.pause.isDown && this.inputHandler.pause.downDuration(1)){
                     this.toPauseState();
                     console.log("Pause");
-                }
+                }                
                 this.player1.PjUpdate();
                 this.player2.PjUpdate();
                 if(this.player1.CheckLose()){
@@ -164,6 +165,7 @@ tetris.inGame = {
         this.playingState = PlayingStates.PLAY;
         this.player1.myGrid.ResumeTimer();
         this.player2.myGrid.ResumeTimer();
+
         this.timerEvent = this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
     },
     toPauseState: function(){
@@ -218,8 +220,14 @@ tetris.inGame = {
         this.currentTime++;
         var minutes = Math.floor((this.currentTime/60));
         var seconds = this.currentTime - minutes*60;
-           
+        if(seconds != 0){
+            if(seconds%30 == 0){
+                this.player1.myGrid.Timer();
+                this.player2.myGrid.Timer();
+            }
+        }
         this.timerText.text = String.format("{0:00}:{1:00}", minutes, seconds);
+
     },
     updateStartTimer:function(){
         this.startCounter--;

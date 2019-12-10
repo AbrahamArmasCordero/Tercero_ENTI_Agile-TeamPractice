@@ -67,6 +67,6 @@ tetris.Player.prototype.PjUpdate = function(){
 }
 
 tetris.Player.prototype.AddScore = function(toAdd){
-    this.score += toAdd;
+        
     this.scoreText.text = "Score: "+this.score.toString();
 }
