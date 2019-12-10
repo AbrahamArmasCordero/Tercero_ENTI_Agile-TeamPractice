@@ -35,6 +35,10 @@ tetris.mainMenu = {
 
         var bt2 = this.createButton(this, "Start", this.world.centerX + 150, this.world.centerY, 150,80., this.startGame);
         
+        
+        this.pj1Text = tetris.game.add.bitmapText(gameOptions.gameWidth/2 - 350, 450,'tittleFont', 'PJ1', 110);
+        this.pj1Text.tint = '#000000';
+        
         this.pj1InputText = this.game.add.inputField(gameOptions.gameWidth/2 - 300-(448/2), 600-30, {
             font: "50px Arial",
             fill: '#000000',
@@ -48,10 +52,13 @@ tetris.mainMenu = {
             borderColor: '#000',
             borderRadius: 6,
             placeHolder: 'PJ1Name',
+            placeHolderColor:'#000000',
             textAlign: 'center',
             cursorColor : '#000000'
         });
         
+        this.pj2Text = tetris.game.add.bitmapText(gameOptions.gameWidth/2 + 250, 450,'tittleFont', 'PJ2', 110);
+        this.pj2Text.tint = '#000000';
         this.pj2InputText = this.game.add.inputField(gameOptions.gameWidth/2 + 300-(448/2), 600-30, {
             font: "50px Arial",
             fill: '#000000',
@@ -65,6 +72,7 @@ tetris.mainMenu = {
             borderColor: '#000',
             borderRadius: 6,
             placeHolder: 'PJ2Name',
+            placeHolderColor:'#000000',
             textAlign: 'center',
             cursorColor : '#000000'
         });
