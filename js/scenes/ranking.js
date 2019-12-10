@@ -16,11 +16,14 @@ tetris.ranking = {
     },
     preload:function(){
         //game.stage.backgroundColor = "#FF0000";
+        this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
     },
     create:function(){
         this.buttonsText = [];
         this.RankingScores = [];
         //Flow buttons
+        this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 50, 'tittleFont', 'RANKING', 110);
+        this.CreatTableOfScores();
     },
     update:function(){
         switch(this.rankingStates){
@@ -59,7 +62,12 @@ tetris.ranking = {
         
     },
     CreatTableOfScores: function(){
+        var ranking = JSON.parse(localStorage.getItem("ranking"));
         
+        for(var i = 0; i < ranking.length; i++){
+            var text = tetris.game.add.bitmapText(this.world.centerX - 200, 200+100*i, 'tittleFont', ranking[i].name+' '+ ranking[i].score, 70);
+            this.RankingScores.push(text);
+        }
     },
     
     creatButtonsBack: function(){

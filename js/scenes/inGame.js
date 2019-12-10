@@ -101,10 +101,12 @@ tetris.inGame = {
                 this.player1.PjUpdate();
                 this.player2.PjUpdate();
                 if(this.player1.CheckLose()){
+                    this.saveRanking(pj2Name, this.player2.score);
                     this.toEndState("Player 2");
                     break;
                 }
                 if(this.player2.CheckLose()){
+                    this.saveRanking(pj1Name, this.player1.score);
                     this.toEndState("Player 1");
                     break;
                 }
@@ -212,5 +214,37 @@ tetris.inGame = {
             this.starTimer.destroy();
             this.timerText.text = "00:00";
         }
+    },
+    saveRanking:function(name, score){
+        //sacar el ranking
+        var ranking = JSON.parse(localStorage.getItem("ranking"));
+        if(ranking == null){
+            ranking = [];
+        }
+        //guardar name y score en el ranking
+        var highScore ={
+            name:name,
+            score:score
+        }
+        ranking.push(highScore);
+        //ordenar ranking
+        ranking.sort(function (a, b) {
+           if (a.score < b.score) 
+           {
+               return 1;
+           }
+           if (a.score > b.score)
+           {
+               return-1;
+           }
+           return 0;
+        });
+        //remove excess
+        if(ranking.length >= 6){
+            ranking.splice( 5, 5 );
+        }
+        //guardar
+        var json = JSON.stringify(ranking);
+        localStorage.setItem("ranking", json);
     },
 };
