@@ -146,8 +146,8 @@ tetris.inGame = {
         this.winTitle.stroke = '#ffffff';
         this.winTitle.strokeThickness = 5;
         //Buttons
-        var resetButton = this.createButton(this, "Reset", this.world.centerX - 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('inGame');});
-        var rankingButton = this.createButton(this, "Ranking", this.world.centerX + 100, this.world.centerY + 80, 150,40, function(){this.game.state.start('ranking');});
+        var resetButton = this.createButton(this, "Reset", this.world.centerX - 120, this.world.centerY + 80, 200,80, function(){this.game.state.start('inGame');});
+        var rankingButton = this.createButton(this, "Ranking", this.world.centerX + 120, this.world.centerY + 80, 200,80, function(){this.game.state.start('ranking');});
 
     },
     toPlayState: function(){
@@ -164,14 +164,14 @@ tetris.inGame = {
         this.pauseText.anchor.setTo(0.5);
         tetris.game.time.events.pause();
         
-        this.resetInPause = this.createButton(this, "Reset", this.world.centerX - 155, this.world.centerY + 140, 150,40, function(){
+        this.resetInPause = this.createButton(this, "Reset", this.world.centerX - 200, this.world.centerY + 140, 200,80, function(){
             tetris.game.time.events.resume();
             this.game.state.start('inGame');
         });
         
-        this.resumeInPause = this.createButton(this, "Resume", this.world.centerX, this.world.centerY + 140, 150,40, function(){this.toResumePlay();});
+        this.resumeInPause = this.createButton(this, "Resume", this.world.centerX, this.world.centerY + 140, 200,80, function(){this.toResumePlay();});
         
-        this.menuInPause = this.createButton(this, "Menu", this.world.centerX + 155, this.world.centerY + 140, 150,40, function(){
+        this.menuInPause = this.createButton(this, "Menu", this.world.centerX + 200, this.world.centerY + 140, 200,80, function(){
             tetris.game.time.events.resume();
             this.game.state.start('mainMenu');
         });
@@ -197,7 +197,8 @@ tetris.inGame = {
         btn.width = w;
         btn.height = h;
         
-        var txt = g1.add.text(btn.x, btn.y, string,{font: "25px Arial",fill: "#000",align: "center"});
+        var txt = g1.add.text(btn.x, btn.y, string,{font: "50px Arial",fill: "#000",align: "center",stroke:"#FFF",
+                                                    strokeThickness:2});
         txt.anchor.setTo(0.5,0.5);
         
         this.buttonsText.push(txt);

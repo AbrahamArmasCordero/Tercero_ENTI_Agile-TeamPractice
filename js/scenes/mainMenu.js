@@ -10,16 +10,19 @@ tetris.mainMenu = {
     },
     preload:function(){
         var ruta = 'assets/img/';
-        this.game.load.spritesheet('bt1', ruta + 'button.png', 268, 101);
-        this.game.stage.backgroundColor = '#182d3b';
+        this.game.load.spritesheet('bt1', ruta + 'frameLayout/ButtonSpriteSheet.png', 256, 128);
+        
         
         this.load.image("inputText", ruta + 'frameLayout/inputText.png');
-
+        this.load.image("mainBg", ruta + 'backgrounds/MainMenu.png');
+            
         this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
     },
     
     create:function(){
-        
+        this.bg = this.game.add.sprite(0,0,"mainBg");
+        this.bg.width = gameOptions.gameWidth;
+        this.bg.height = gameOptions.gameHeight;
         this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 100, 'tittleFont', 'BATTLE TETRIS', 110);
         this.title.tint = 0xFFFFFF;
         
@@ -30,7 +33,7 @@ tetris.mainMenu = {
         this.inputSprite02.anchor.setTo(.5);
         this.inputSprite02.scale.setTo(1);
 
-        var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,40, this.startGame);
+        var bt2 = this.createButton(this, "Start", this.world.centerX + 150, this.world.centerY, 150,80., this.startGame);
         
         this.pj1InputText = this.game.add.inputField(gameOptions.gameWidth/2 - 300-(448/2), 600-30, {
             font: "50px Arial",
@@ -75,14 +78,17 @@ tetris.mainMenu = {
     
     //Creates a button given the game and his basic propierties
     createButton: function(g1, string, x,y,w,h,callback){
-        var btn = g1.add.button(x,y, 'bt1', callback, this, 2,1,0);
+        var btn = g1.add.button(x,y, 'bt1', callback, this, 1,0,0);
         btn.anchor.setTo(0.5,0.5);
         btn.width = w;
         btn.height = h;
         
-        var txt = g1.add.text(btn.x, btn.y, string,{font: "25px Arial",
+        var txt = g1.add.text(btn.x, btn.y, string,{font: "50px Arial",
                                                    fill: "#000",
+                                                    stroke:"#FFF",
+                                                    strokeThickness:2,
                                                    align: "center"});
+        txt.addColor(0,"#00FF00");
         txt.anchor.setTo(0.5,0.5);
     },
     
