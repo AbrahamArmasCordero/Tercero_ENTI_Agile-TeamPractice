@@ -1,9 +1,5 @@
 var tetris = tetris || {};
-const RankingStates = {
-    SHOWPLAYERSCORE: 0,
-    SHOWRANKIGSCORES: 1,
-    CHANGENAMES: 2
-}
+
 
 tetris.ranking = {
     init:function(){
@@ -11,8 +7,6 @@ tetris.ranking = {
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
         this.creatButton = false;
-        this.rankingStates = RankingStates.SHOWPLAYERSCORE;
-        this.game.add.plugin(PhaserInput.Plugin);
     },
     preload:function(){
         var ruta = 'assets/img/';
@@ -48,22 +42,14 @@ tetris.ranking = {
         this.pauseBg.kill();
 
         //Flow buttons
+        this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 50, 'tittleFont', 'RANKING', 110);
+        this.CreatTableOfScores();
+        if(this.creatButton == false){
+            this.creatButtonsBack();
+        }
     },
     update:function(){
-        switch(this.rankingStates){
-            case RankingStates.SHOWPLAYERSCORE:
-                //Mostrar puntuacion del jugador ganador->
-                    this.CreatPlayerScore(this, NameWinner.text, this.world.centerX, this.world.centerY, 200, 50 );
-                break;
-            case RankingStates.SHOWRANKIGSCORES:
-                //Mostrar la tabla del ranking->
-                    this.CreatTableOfScores();
-                break;
-            case RankingStates.CHANGENAMES:
-                if(this.creatButton == false)
-                    this.CreatTableOfCN();
-                break;
-        }
+
     },
     //Creates a button given the game and his basic propierties
     createButton: function(g1, string, x,y,w,h,callback){
@@ -81,21 +67,7 @@ tetris.ranking = {
     SaveRankingValues: function(){
         
     },
-    
-    CreatPlayerScore: function(g1, string, x, y, w, h){
-        this.mainBg.kill;
-        this.endBg.revive();
-        this.endBg.bringToTop();
-        
-        this.pauseText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2 - 80, 'titleFont', "The winner is: ", 200);
-        this.pauseText.anchor.setTo(0.5);
-        
-        this.winText = this.game.add.bitmapText(x-400, y , 'titleFont', string, 100);
-        this.winTextI = this.game.add.bitmapText(x, y , 'titleFont', 'Score: ' + ScoreWinner, 100);
 
-        this.creatButtonsBack();
-    },
-    
     CreatTableOfScores: function(){
         this.endBg.revive();
         this.endBg.bringToTop();
@@ -194,21 +166,13 @@ tetris.ranking = {
         }
     },
     
-    checkName:function(name, comparison){
-        if(name == null || name == "" || name == comparison){
-            return false;
-        }
-        else{
-            return true;
-        }
-    },
-    startGame:function(){
-        if(this.checkName(this.pj1InputText.value, this.pj2InputText.value) && this.checkName(this.pj2InputText.value, this.pj1InputText.value)){
-            //set pj1 name
-            pj1Name = this.pj1InputText.value
-            //set pj2 name
-            pj2Name = this.pj2InputText.value
-            this.game.state.start('inGame');
-        }
+    creatButtonsBack: function(){
+                this.resetButton = this.createButton(this, "Play Again", this.world.centerX - 250, this.world.centerY+140 , 190, 45, function(){
+                    this.game.state.start('inGame'); 
+                });
+                this.mainButton = this.createButton(this, "Main Menu", this.world.centerX + 250, this.world.centerY+140 , 190, 45, function(){
+                        this.game.state.start('mainMenu');
+                });
+        this.creatButton = true;
     }
 };
