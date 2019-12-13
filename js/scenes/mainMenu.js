@@ -23,7 +23,7 @@ tetris.mainMenu = {
         this.bg = this.game.add.sprite(0,0,"mainBg");
         this.bg.width = gameOptions.gameWidth;
         this.bg.height = gameOptions.gameHeight;
-        this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 100, 'tittleFont', 'BATTLE TETRIS', 110);
+        this.title = tetris.game.add.bitmapText(this.world.centerX - 220, 150, 'tittleFont', 'BATTLE TETRIS', 110);
         this.title.tint = 0xFFFFFF;
         
         this.inputSprite01 = this.game.add.sprite(gameOptions.gameWidth/2 - 300,600,'inputText');
@@ -33,7 +33,7 @@ tetris.mainMenu = {
         this.inputSprite02.anchor.setTo(.5);
         this.inputSprite02.scale.setTo(1);
 
-        var bt2 = this.createButton(this, "Start", this.world.centerX + 150, this.world.centerY, 150,80., this.startGame);
+        var bt2 = this.createButton(this, "Start", this.world.centerX, this.world.centerY, 150,80., this.startGame);
         
         
         this.pj1Text = tetris.game.add.bitmapText(gameOptions.gameWidth/2 - 350, 450,'tittleFont', 'PJ1', 110);
