@@ -111,12 +111,12 @@ tetris.inGame = {
                 this.player2.PjUpdate();
                 if(this.player1.CheckLose()){
                     this.saveRanking(pj2Name, this.player2.score);
-                    this.toEndState("Player 2");
+                    this.toEndState(pj2Name);
                     break;
                 }
                 if(this.player2.CheckLose()){
                     this.saveRanking(pj1Name, this.player1.score);
-                    this.toEndState("Player 1");
+                    this.toEndState(pj1Name);
                     break;
                 }
                 break;
