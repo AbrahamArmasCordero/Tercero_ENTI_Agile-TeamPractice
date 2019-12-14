@@ -69,6 +69,10 @@ tetris.inGame = {
         this.timerText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "", 64);
         this.timerText.anchor.setTo(0.5);
         
+        this.level = 1;
+        this.levelText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2 + 100, 'titleFont', "Level: 1", 64);
+        this.levelText.anchor.setTo(0.5);
+        
         this.currentTime = 0;
  
         //End 
@@ -223,6 +227,10 @@ tetris.inGame = {
             if(seconds%30 == 0){
                 this.player1.myGrid.IncreaseSpeed();
                 this.player2.myGrid.IncreaseSpeed();
+                if(this.level <= 9){
+                    this.level++;
+                    this.levelText.text = String.format("Level: {0:0}",this.level);
+                }
             }
         }
         this.timerText.text = String.format("{0:00}:{1:00}", minutes, seconds);
