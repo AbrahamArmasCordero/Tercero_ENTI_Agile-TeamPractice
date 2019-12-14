@@ -43,7 +43,10 @@ tetris.Grid = function(pixStartX, pixStartY){
     this.scoreSignal = new Phaser.Signal();
     this.pieceFactory = new tetris.pieceFactory();
     
+    this.fallPieceSpeed = Phaser.Timer.SECOND;
+
     this.SpawnNewPiece();
+    
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -444,7 +447,7 @@ tetris.Grid.prototype.FallPiece = function(){
     if(this.currentPiece != null){
         if(!this.currentPiece.IsCollisionSide(this, CollisionSide.BOTTOM)){
             this.RemoveCurrentPiece();
-            this.currentPiece.MovePiece(TypeOfMovement.FASTER,this)
+            this.currentPiece.MovePiece(TypeOfMovement.FASTER, this)
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
         }else{
             this.RemoveCurrentPiece();
@@ -464,7 +467,6 @@ tetris.Grid.prototype.SpawnNewPiece = function(){
     }
     
 }
-
 
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
         
@@ -495,5 +497,14 @@ tetris.Grid.prototype.PauseTimer = function(){
     tetris.game.time.events.remove(this.pieceTimer)
 }
 tetris.Grid.prototype.ResumeTimer = function(){
-    this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
+    this.pieceTimer = tetris.game.time.events.loop(this.fallPieceSpeed, this.FallPiece, this);
+}
+tetris.Grid.prototype.IncreaseSpeed = function(){
+    this.fallPieceSpeed -= 100; 
+    
+    if(this.fallPieceSpeed <= 100){
+        this.fallPieceSpeed = 100;
+    }
+    this.PauseTimer();
+    this.ResumeTimer();
 }

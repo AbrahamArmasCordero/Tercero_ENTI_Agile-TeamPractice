@@ -19,5 +19,5 @@ var gameOptions = {
     pieceFramePixSize:128,
     
     pointsForLine:10,
-    tetrisMultiplier:10
+    tetrisMultiplier:2
 };

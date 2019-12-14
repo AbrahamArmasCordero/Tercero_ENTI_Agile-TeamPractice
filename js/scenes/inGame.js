@@ -69,6 +69,10 @@ tetris.inGame = {
         this.timerText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2, 'titleFont', "", 64);
         this.timerText.anchor.setTo(0.5);
         
+        this.level = 1;
+        this.levelText = this.game.add.bitmapText(gameOptions.gameWidth/2, gameOptions.gameHeight/2 + 100, 'titleFont', "Level: 1", 64);
+        this.levelText.anchor.setTo(0.5);
+        
         this.currentTime = 0;
  
         //End 
@@ -90,7 +94,8 @@ tetris.inGame = {
         
         //Buttons
         this.buttonsText = [];
-
+        var timemultp = 1.0;
+        var lastTime = 0;
     },
     update:function(){
         
@@ -101,7 +106,7 @@ tetris.inGame = {
                 if(this.inputHandler.pause.isDown && this.inputHandler.pause.downDuration(1)){
                     this.toPauseState();
                     console.log("Pause");
-                }
+                }                
                 this.player1.PjUpdate();
                 this.player2.PjUpdate();
                 if(this.player1.CheckLose()){
@@ -116,7 +121,6 @@ tetris.inGame = {
                 }
                 break;
             case PlayingStates.PAUSE:
-                console.log("In pause");
                 if(this.inputHandler.pause.isDown && this.inputHandler.pause.downDuration(1)){
                     this.toResumePlay();
                 }
@@ -164,6 +168,7 @@ tetris.inGame = {
         this.playingState = PlayingStates.PLAY;
         this.player1.myGrid.ResumeTimer();
         this.player2.myGrid.ResumeTimer();
+
         this.timerEvent = this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
     },
     toPauseState: function(){
@@ -218,8 +223,18 @@ tetris.inGame = {
         this.currentTime++;
         var minutes = Math.floor((this.currentTime/60));
         var seconds = this.currentTime - minutes*60;
-           
+        if(minutes != 0 || seconds != 0){
+            if(seconds%30 == 0){
+                this.player1.myGrid.IncreaseSpeed();
+                this.player2.myGrid.IncreaseSpeed();
+                if(this.level <= 9){
+                    this.level++;
+                    this.levelText.text = String.format("Level: {0:0}",this.level);
+                }
+            }
+        }
         this.timerText.text = String.format("{0:00}:{1:00}", minutes, seconds);
+
     },
     updateStartTimer:function(){
         this.startCounter--;
