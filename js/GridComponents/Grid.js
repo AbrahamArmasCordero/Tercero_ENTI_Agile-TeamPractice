@@ -43,7 +43,7 @@ tetris.Grid = function(pixStartX, pixStartY){
     this.scoreSignal = new Phaser.Signal();
     this.pieceFactory = new tetris.pieceFactory();
     
-    this.lastTime = 1000;
+    this.fallPieceSpeed = Phaser.Timer.SECOND;
 
     this.SpawnNewPiece();
     
@@ -468,7 +468,6 @@ tetris.Grid.prototype.SpawnNewPiece = function(){
     
 }
 
-
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
         
     var imgXPos = this.nextFrameXPos + gameOptions.pieceFramePixSize / 2;
@@ -498,12 +497,14 @@ tetris.Grid.prototype.PauseTimer = function(){
     tetris.game.time.events.remove(this.pieceTimer)
 }
 tetris.Grid.prototype.ResumeTimer = function(){
-    this.pieceTimer = tetris.game.time.events.loop(this.lastTime, this.FallPiece, this);
+    this.pieceTimer = tetris.game.time.events.loop(this.fallPieceSpeed, this.FallPiece, this);
 }
-tetris.Grid.prototype.Timer = function(){
-    this.lastTime -= (100); 
-    if(this.lastTime <= 100){
-        this.lastTime = 100;
+tetris.Grid.prototype.IncreaseSpeed = function(){
+    this.fallPieceSpeed -= 100; 
+    
+    if(this.fallPieceSpeed <= 100){
+        this.fallPieceSpeed = 100;
     }
+    this.PauseTimer();
     this.ResumeTimer();
 }

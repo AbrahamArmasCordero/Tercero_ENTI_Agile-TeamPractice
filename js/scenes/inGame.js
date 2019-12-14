@@ -117,7 +117,6 @@ tetris.inGame = {
                 }
                 break;
             case PlayingStates.PAUSE:
-                console.log("In pause");
                 if(this.inputHandler.pause.isDown && this.inputHandler.pause.downDuration(1)){
                     this.toResumePlay();
                 }
@@ -220,10 +219,10 @@ tetris.inGame = {
         this.currentTime++;
         var minutes = Math.floor((this.currentTime/60));
         var seconds = this.currentTime - minutes*60;
-        if(seconds != 0){
+        if(minutes != 0 || seconds != 0){
             if(seconds%30 == 0){
-                this.player1.myGrid.Timer();
-                this.player2.myGrid.Timer();
+                this.player1.myGrid.IncreaseSpeed();
+                this.player2.myGrid.IncreaseSpeed();
             }
         }
         this.timerText.text = String.format("{0:00}:{1:00}", minutes, seconds);
