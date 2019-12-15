@@ -96,6 +96,10 @@ tetris.inGame = {
         this.buttonsText = [];
         var timemultp = 1.0;
         var lastTime = 0;
+        
+        //Music
+        if(!gameMusic.isPlaying)
+            gameMusic.play();
     },
     update:function(){
         
