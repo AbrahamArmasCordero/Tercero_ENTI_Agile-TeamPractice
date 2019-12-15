@@ -9,13 +9,16 @@ tetris.ranking = {
         this.creatButton = false;
     },
     preload:function(){
-        
+        var ruta = 'assets/img/';
+        this.load.image("rankingBg", ruta + 'backgrounds/background_ranking.png');
     },
     create:function(){
+        this.bg = this.game.add.sprite(0,0,"rankingBg");
         this.buttonsText = [];
         this.RankingScores = [];
         //Flow buttons
         this.title = tetris.game.add.bitmapText(this.world.centerX - 200, 50, 'tittleFont', 'RANKING', 110);
+        this.title.tint = 0x000000;
         this.CreatTableOfScores();
         
         //Flow buttons
@@ -48,7 +51,8 @@ tetris.ranking = {
         var ranking = JSON.parse(localStorage.getItem("ranking"));
         
         for(var i = 0; i < ranking.length; i++){
-            var text = tetris.game.add.bitmapText(this.world.centerX - 200, 200+100*i, 'tittleFont', ranking[i].name+' '+ ranking[i].score, 70);
+            var text = tetris.game.add.bitmapText(this.world.centerX - 200, 200+100*i, 'tittleFont', (i+1) + '.  ' + ranking[i].name+' '+ ranking[i].score, 70);
+            text.tint = 0x000000;
             this.RankingScores.push(text);
         }
     },
