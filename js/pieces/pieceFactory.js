@@ -47,3 +47,31 @@ tetris.pieceFactory.prototype.is2TimesRepeated = function(numberPieceIndex){
     }
     return true;
 }
+
+tetris.pieceFactory.prototype.RequestPiece = function(id){
+    
+    switch(id){
+        case SpriteID.O:
+            return new tetris.oPiece();
+            break;
+        case SpriteID.I:
+            return new tetris.iPiece();
+            break;
+        case SpriteID.T:
+            return new tetris.tPiece();
+            break;
+        case SpriteID.L.Left:
+            return new tetris.lLPiece();
+            break;
+        case SpriteID.L.Right:
+            return new tetris.lRPiece();
+            break;
+        case SpriteID.Z.Left:
+            return new tetris.zLPiece();
+            break;
+        case SpriteID.Z.Right:
+            return new tetris.zRPiece();
+            break;
+            
+    }
+}

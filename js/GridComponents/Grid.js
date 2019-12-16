@@ -5,7 +5,8 @@ const TypeOfMovement ={
     FASTER: 1,
     RIGHT: 2,
     LEFT: 3,
-    ROTATE: 4
+    ROTATE: 4,
+    HOLD:5
 }
 
 tetris.Grid = function(pixStartX, pixStartY){
@@ -42,7 +43,10 @@ tetris.Grid = function(pixStartX, pixStartY){
     this.scoreSignal = new Phaser.Signal();
     this.pieceFactory = new tetris.pieceFactory();
     
+    this.fallPieceSpeed = Phaser.Timer.SECOND;
+
     this.SpawnNewPiece();
+    
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -394,6 +398,44 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
             this.currentPiece.MovePiece(TypeOfMovement.ROTATE, this);
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
             break;
+        case TypeOfMovement.HOLD:
+            //guardar aux del hold piece
+            var holdedId
+            var holdedPiece
+            
+            if(this.holdedPieceID != null){
+                holdedId = this.holdedPieceID;
+                holdedPiece = this.pieceFactory.RequestPiece(holdedId);
+                this.UpdateHoldPiece(this.currentPiece.pieceSprite);
+                this.RemoveCurrentPiece();
+                //check wall colision
+                if(holdedPiece.pieceSprite == SpriteID.I){
+                   if(this.currentPiece.x >= gameOptions.gridCellWidthCount-3){
+                       this.currentPiece.x--;
+                    }
+                    else if(this.currentPiece.x <= 0){
+                        this.currentPiece.x++;
+                    }
+                }
+                this.AddPiece(holdedPiece, this.currentPiece.x, this.currentPiece.y);
+                
+            }
+            else{
+                holdedId = this.currentPiece.pieceSprite;
+                this.UpdateHoldPiece(this.currentPiece.pieceSprite);    
+                //spawnear la siguiente
+                this.RemoveCurrentPiece();
+                var newPiece = this.pieceFactory.createPiece();
+                //check wall colision
+                if(newPiece.pieceSprite == SpriteID.I){
+                   if(this.currentPiece.x >= gameOptions.gridCellWidthCount-3){
+                       this.currentPiece.x--;
+                   }    
+                }
+                this.AddPiece(newPiece, this.currentPiece.x, this.currentPiece.y);
+                this.UpdateNextPiece(this.pieceFactory.nextPiece);
+            }
+            break;
     }
 };
 
@@ -405,7 +447,7 @@ tetris.Grid.prototype.FallPiece = function(){
     if(this.currentPiece != null){
         if(!this.currentPiece.IsCollisionSide(this, CollisionSide.BOTTOM)){
             this.RemoveCurrentPiece();
-            this.currentPiece.MovePiece(TypeOfMovement.FASTER,this)
+            this.currentPiece.MovePiece(TypeOfMovement.FASTER, this)
             this.AddPiece(this.currentPiece,this.currentPiece.x,this.currentPiece.y );
         }else{
             this.RemoveCurrentPiece();
@@ -426,7 +468,6 @@ tetris.Grid.prototype.SpawnNewPiece = function(){
     
 }
 
-
 tetris.Grid.prototype.UpdateNextPiece = function(pieceID){
         
     var imgXPos = this.nextFrameXPos + gameOptions.pieceFramePixSize / 2;
@@ -443,16 +484,27 @@ tetris.Grid.prototype.UpdateHoldPiece = function(pieceID){
     var imgXPos = this.holdFrameXPos+gameOptions.pieceFramePixSize/2;
     var imgYPos = this.startCellY+gameOptions.pieceFramePixSize/2;
     
-    this.holdPieceIMG.destroy();
+    if(this.holdedPieceIMG != null)
+        this.holdedPieceIMG.destroy();
+
     this.holdedPieceID = pieceID;
-    this.holdPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
-    this.holdPieceIMG.anchor.setTo(0.5);
-    this.holdPieceIMG.scale.setTo(0.6);
+    this.holdedPieceIMG = tetris.game.add.image(imgXPos,imgYPos, SpriteFullIMG[pieceID]);
+    this.holdedPieceIMG.anchor.setTo(0.5);
+    this.holdedPieceIMG.scale.setTo(0.6);
 }
 
 tetris.Grid.prototype.PauseTimer = function(){
     tetris.game.time.events.remove(this.pieceTimer)
 }
 tetris.Grid.prototype.ResumeTimer = function(){
-    this.pieceTimer = tetris.game.time.events.loop(Phaser.Timer.SECOND, this.FallPiece, this);
+    this.pieceTimer = tetris.game.time.events.loop(this.fallPieceSpeed, this.FallPiece, this);
+}
+tetris.Grid.prototype.IncreaseSpeed = function(){
+    this.fallPieceSpeed -= 100; 
+    
+    if(this.fallPieceSpeed <= 100){
+        this.fallPieceSpeed = 100;
+    }
+    this.PauseTimer();
+    this.ResumeTimer();
 }
