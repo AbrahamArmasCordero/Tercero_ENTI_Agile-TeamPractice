@@ -1,6 +1,5 @@
 var tetris = tetris || {};
 
-var menuMusic;
 var gameMusic;
 
 tetris.mainMenu = {
@@ -28,7 +27,7 @@ tetris.mainMenu = {
     create:function(){
         gameMusic = this.game.add.audio('ingameMusic');
         gameMusic.loop = true;
-        gameMusic.volume = 0.5;
+        gameMusic.volume = 0.3;
         
         this.bg = this.game.add.sprite(0,0,"mainBg");
         this.bg.width = gameOptions.gameWidth;
