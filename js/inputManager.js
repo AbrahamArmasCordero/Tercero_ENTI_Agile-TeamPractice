@@ -3,12 +3,12 @@ var tetris = tetris || {};
 tetris.inputManager = function(_game){
     //Inputs for Player 02
     this.cursorsPlayer02 = _game.input.keyboard.addKeys(
-            { 'up': Phaser.KeyCode.NUMPAD_0, 
-             'down': Phaser.KeyCode.DOWN, 
-             'left': Phaser.KeyCode.LEFT, 
-             'right': Phaser.KeyCode.RIGHT,
-             'hold': Phaser.KeyCode.CONTROL,
-             'rotate': Phaser.KeyCode.UP});
+            { 'up': Phaser.KeyCode.NUMPAD_6, 
+             'down': Phaser.KeyCode.NUMPAD_2, 
+             'left': Phaser.KeyCode.NUMPAD_1, 
+             'right': Phaser.KeyCode.NUMPAD_3,
+             'hold': Phaser.KeyCode.NUMPAD_4,
+             'rotate': Phaser.KeyCode.NUMPAD_5});
         //Keypad UP = Rotate / CTRL 2 = Hold
 
     

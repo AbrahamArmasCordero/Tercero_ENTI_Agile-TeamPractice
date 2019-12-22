@@ -51,6 +51,8 @@ tetris.inGame = {
         this.load.image('background_endAnimated', ruta + 'backgrounds/background_endAnimated.png');
         //Bg
          this.load.image('main_bg', ruta+'backgrounds/background_ingame.png');
+        //Musics
+         this.game.load.audio('winMusic', 'assets/audio/music/tetris_win.mp3');
         
         this.game.load.audio('lineSFX', 'assets/sounds/line.wav');
         this.game.load.audio('tetrisSFX', 'assets/sounds/tetris.wav');
@@ -106,6 +108,12 @@ tetris.inGame = {
         var timemultp = 1.0;
         var lastTime = 0;
         
+        this.winMusic = this.game.add.audio('winMusic');
+        
+        //Music
+        if(!gameMusic.isPlaying)
+            gameMusic.play();
+        
         placeSound = tetris.game.add.audio('placeSFX');
         rotate = tetris.game.add.audio('rotateSFX');
     },
@@ -144,7 +152,8 @@ tetris.inGame = {
     },
     toEndState: function(name){
         this.playingState = PlayingStates.END;
-        
+        this.winMusic.play();
+        gameMusic.pause();
         
         this.endBg.revive();
         this.endBg.bringToTop();
@@ -172,9 +181,8 @@ tetris.inGame = {
         this.winTitle.stroke = '#ffffff';
         this.winTitle.strokeThickness = 5;
         //Buttons
-        var resetButton = this.createButton(this, "Reset", this.world.centerX - 120, this.world.centerY + 80, 200,80, function(){this.game.state.start('inGame');});
-        var rankingButton = this.createButton(this, "Ranking", this.world.centerX + 120, this.world.centerY + 80, 200,80, function(){this.game.state.start('ranking');});
-
+        var resetButton = this.createButton(this, "Reset", this.world.centerX - 120, this.world.centerY + 80, 200,80, function(){this.game.state.start('inGame');gameMusic.resume();this.winMusic.stop();});
+        var rankingButton = this.createButton(this, "Ranking", this.world.centerX + 120, this.world.centerY + 80, 200,80, function(){this.game.state.start('ranking'); gameMusic.resume(); this.winMusic.stop();});
     },
     toPlayState: function(){
         this.playingState = PlayingStates.PLAY;

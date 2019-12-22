@@ -1,6 +1,7 @@
 var tetris = tetris || {};
 
-//var bt1;
+var gameMusic;
+
 tetris.mainMenu = {
     init:function(){
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -15,11 +16,18 @@ tetris.mainMenu = {
         
         this.load.image("inputText", ruta + 'frameLayout/inputText.png');
         this.load.image("mainBg", ruta + 'backgrounds/MainMenu.png');
+        
+        //Musics
+         this.game.load.audio('ingameMusic', 'assets/audio/music/tetris_game.mp3');
             
         this.game.load.bitmapFont('tittleFont', 'assets/fonts/battle.png', 'assets/fonts/battle.fnt');
+        
     },
     
     create:function(){
+        gameMusic = this.game.add.audio('ingameMusic');
+        gameMusic.loop = true;
+        gameMusic.volume = 0.3;
         
         this.bg = this.game.add.sprite(0,0,"mainBg");
         this.bg.width = gameOptions.gameWidth;
