@@ -14,6 +14,7 @@ tetris.piece = function(){
       [0, 0, 0, 0],
       [0, 0, 0, 0]
     ];
+
 };
  
 
@@ -25,6 +26,8 @@ tetris.piece.prototype.x = 3;
 tetris.piece.prototype.y = 2;
 tetris.piece.prototype.rotatedState = 0;
 tetris.piece.prototype.pieceSprite = 0;
+tetris.piece.prototype.placeSound = null;
+tetris.piece.prototype.rotate = null;
 
 tetris.piece.prototype.MovePiece = function(movementType, grid){
     //Will move piece
@@ -46,6 +49,7 @@ tetris.piece.prototype.MovePiece = function(movementType, grid){
             }
             break;
         case TypeOfMovement.DROP:
+            placeSound.play();
             while(this.IsCollisionSide(grid, CollisionSide.BOTTOM) == false){
                 this.y += 1;
             }
@@ -53,6 +57,7 @@ tetris.piece.prototype.MovePiece = function(movementType, grid){
         case TypeOfMovement.ROTATE:
            // if()
                 this.Rotate(grid);
+            rotate.play();
             break;
     }
 }
@@ -116,16 +121,19 @@ tetris.piece.prototype.IsCollisionSide = function(grid, collisionSide){
                 switch(collisionSide){
                     case CollisionSide.BOTTOM:
                         if((this.y + y) >= gameOptions.gridCellHeightCount - 1 || this.OcuppiedBlock(grid,x,y+1)){
+                            
                             return true;
                         }
                         break;
                     case CollisionSide.LEFT:
                         if((this.x + x) <= 0 || this.OcuppiedBlock(grid,x-1,y)){
+                            
                             return true;
                         }
                         break;
                     case CollisionSide.RIGHT:
                         if((this.x + x) >= gameOptions.gridCellWidthCount - 1 || this.OcuppiedBlock(grid,x+1,y)){
+                            
                             return true;
                         }
                         break;

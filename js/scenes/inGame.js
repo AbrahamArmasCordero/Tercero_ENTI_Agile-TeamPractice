@@ -1,4 +1,8 @@
 var tetris = tetris || {};
+
+var placeSound = null;
+var rotate = null;
+
 const PlayingStates = {
     COUNTDOWN: 0,
     PLAY: 1,
@@ -47,6 +51,11 @@ tetris.inGame = {
         this.load.image('background_endAnimated', ruta + 'backgrounds/background_endAnimated.png');
         //Bg
          this.load.image('main_bg', ruta+'backgrounds/background_ingame.png');
+        
+        this.game.load.audio('lineSFX', 'assets/sounds/line.wav');
+        this.game.load.audio('tetrisSFX', 'assets/sounds/tetris.wav');
+        this.game.load.audio('placeSFX', 'assets/sounds/placePiece.mp3');
+        this.game.load.audio('rotateSFX', 'assets/sounds/rotatePiece.mp3');
     },
     create:function(){
          //BG
@@ -96,6 +105,9 @@ tetris.inGame = {
         this.buttonsText = [];
         var timemultp = 1.0;
         var lastTime = 0;
+        
+        placeSound = tetris.game.add.audio('placeSFX');
+        rotate = tetris.game.add.audio('rotateSFX');
     },
     update:function(){
         

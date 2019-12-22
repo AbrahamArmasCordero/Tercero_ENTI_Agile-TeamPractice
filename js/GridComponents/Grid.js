@@ -47,6 +47,11 @@ tetris.Grid = function(pixStartX, pixStartY){
 
     this.SpawnNewPiece();
     
+    this.lineSound = tetris.game.add.audio('lineSFX');
+    this.tetrisSound = tetris.game.add.audio('tetrisSFX');
+    this.placeSound = tetris.game.add.audio('placeSFX');
+    this.rotate = tetris.game.add.audio('rotateSFX');
+    
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -84,12 +89,14 @@ tetris.Grid.prototype.ScoreLines = function(){
         this.scoreSignal.dispatch(numOfLines
                                   *gameOptions.pointsForLine
                                   *gameOptions.tetrisMultiplier);
+        this.tetrisSound.play();
         
     }
     else if(numOfLines > 0 ){
         //score += numOfLines*scoreOfOneLine
         this.scoreSignal.dispatch(numOfLines
                                   *gameOptions.pointsForLine);
+        this.lineSound.play();
     }
     
     //LINE DISPLACEMENT
