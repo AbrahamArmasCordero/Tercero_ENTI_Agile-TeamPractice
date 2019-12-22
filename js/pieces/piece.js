@@ -57,6 +57,7 @@ tetris.piece.prototype.MovePiece = function(movementType, grid){
         case TypeOfMovement.ROTATE:
            // if()
                 this.Rotate(grid);
+            rotate.play();
             break;
     }
 }
