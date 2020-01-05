@@ -47,6 +47,11 @@ tetris.Grid = function(pixStartX, pixStartY){
 
     this.SpawnNewPiece();
     
+    this.lineSound = tetris.game.add.audio('lineSFX');
+    this.tetrisSound = tetris.game.add.audio('tetrisSFX');
+    this.placeSound = tetris.game.add.audio('placeSFX');
+    this.rotate = tetris.game.add.audio('rotateSFX');
+    
 };
  
 tetris.Grid.prototype = Object.create(tetris.Grid.prototype);
@@ -84,12 +89,14 @@ tetris.Grid.prototype.ScoreLines = function(){
         this.scoreSignal.dispatch(numOfLines
                                   *gameOptions.pointsForLine
                                   *gameOptions.tetrisMultiplier);
+        this.tetrisSound.play();
         
     }
     else if(numOfLines > 0 ){
         //score += numOfLines*scoreOfOneLine
         this.scoreSignal.dispatch(numOfLines
                                   *gameOptions.pointsForLine);
+        this.lineSound.play();
     }
     
     //LINE DISPLACEMENT
@@ -409,14 +416,15 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
                 this.UpdateHoldPiece(this.currentPiece.pieceSprite);
                 this.RemoveCurrentPiece();
                 //check wall colision
-                if(holdedPiece.pieceSprite == SpriteID.I){
-                   if(this.currentPiece.x >= gameOptions.gridCellWidthCount-3){
-                       this.currentPiece.x--;
-                    }
-                    else if(this.currentPiece.x <= 0){
-                        this.currentPiece.x++;
-                    }
+                var length = holdedPiece.pieceMatrix[0].length;
+               if(this.currentPiece.x + length >= gameOptions.gridCellWidthCount - 1){
+                   var margin = this.currentPiece.x + length - (gameOptions.gridCellWidthCount);
+                   this.currentPiece.x -= margin; 
                 }
+                else if(this.currentPiece.x <= 0){
+                    this.currentPiece.x = 0;
+                }
+                
                 this.AddPiece(holdedPiece, this.currentPiece.x, this.currentPiece.y);
                 
             }
@@ -426,13 +434,8 @@ tetris.Grid.prototype.MovePiece = function(_typeOfMovement){
                 //spawnear la siguiente
                 this.RemoveCurrentPiece();
                 var newPiece = this.pieceFactory.createPiece();
-                //check wall colision
-                if(newPiece.pieceSprite == SpriteID.I){
-                   if(this.currentPiece.x >= gameOptions.gridCellWidthCount-3){
-                       this.currentPiece.x--;
-                   }    
-                }
-                this.AddPiece(newPiece, this.currentPiece.x, this.currentPiece.y);
+                
+                this.AddPiece(newPiece, 3, 0);
                 this.UpdateNextPiece(this.pieceFactory.nextPiece);
             }
             break;
